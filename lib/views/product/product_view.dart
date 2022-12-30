@@ -15,6 +15,7 @@ import 'package:final_project/widgets/button_icon_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductView extends StatefulWidget {
   final Product product;
@@ -112,13 +113,13 @@ class _ProductViewState extends State<ProductView> {
                       ),
                       ButtonIconText(
                         height: 43,
-                        text: 'ADD TO BAG',
+                        text: tr('ADD TO BAG'),
                         onPressed: () {
                           if (_selectedSize == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor: Colors.green,
-                                content: Text('Please select size'),
+                                content: Text('Please select size').tr(),
                               ),
                             );
                           } else {
@@ -127,9 +128,9 @@ class _ProductViewState extends State<ProductView> {
                                   product: widget.product,
                                   size: _selectedSize!));
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
+                              SnackBar(
                                 backgroundColor: AppColors.greenSuccess,
-                                content: Text('It\'s in the bag'),
+                                content: Text('It\'s in the bag').tr(),
                               ),
                             );
                           }
@@ -151,7 +152,7 @@ class _ProductViewState extends State<ProductView> {
                     if (state.products.isNotEmpty) {
                       return SliverToBoxAdapter(
                         child: ProductSlider2(
-                          title: 'You might also like',
+                          title: tr('You might also like'),
                           backgroundColor: Colors.grey.shade100,
                         ),
                       );
@@ -368,35 +369,35 @@ class ReviewOfProduct extends StatelessWidget {
                   height: 5,
                 ),
                 ChartRow(
-                    label: '5 stars',
+                    label: '5 ${tr('stars')}',
                     pct: reviewCount['5.0']!,
                     total: reviewCount['total']!),
                 const SizedBox(
                   height: 10,
                 ),
                 ChartRow(
-                    label: '4 stars',
+                    label: '4 ${tr('stars')}',
                     pct: reviewCount['4.0']!,
                     total: reviewCount['total']!),
                 const SizedBox(
                   height: 10,
                 ),
                 ChartRow(
-                    label: '3 stars',
+                    label: '3 ${tr('stars')}',
                     pct: reviewCount['3.0']!,
                     total: reviewCount['total']!),
                 const SizedBox(
                   height: 10,
                 ),
                 ChartRow(
-                    label: '2 stars',
+                    label: '2 ${tr('stars')}',
                     pct: reviewCount['2.0']!,
                     total: reviewCount['total']!),
                 const SizedBox(
                   height: 10,
                 ),
                 ChartRow(
-                    label: '1 stars',
+                    label: '1 ${tr('stars')}',
                     pct: reviewCount['1.0']!,
                     total: reviewCount['total']!),
                 const SizedBox(

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CatalogView extends StatelessWidget {
   String? textSearch;
@@ -26,7 +27,7 @@ class CatalogView extends StatelessWidget {
           title: BigText(
             // use for Capitalize Each Word '${finerCategory!.title!.split('-').map((e) => toBeginningOfSentenceCase(e)).join(' ')}'
             text: (productID != null)
-                ? 'SIMILAR ITEMS'
+                ? tr('SIMILAR ITEMS')
                 : (finerCategory != null)
                     ? '${finerCategory!.title!.toUpperCase().split('-').join(' ')}'
                     : '${textSearch!.toUpperCase()}',
@@ -71,7 +72,7 @@ class CatalogView extends StatelessWidget {
                         Container(
                             margin: const EdgeInsets.symmetric(vertical: 13),
                             child: SmallText(
-                              text: '${state.length} items found',
+                              text: '${state.length} ${tr('items found')}',
                               color: Colors.grey[700],
                               fontWeight: FontWeight.w100,
                               size: 10.5,

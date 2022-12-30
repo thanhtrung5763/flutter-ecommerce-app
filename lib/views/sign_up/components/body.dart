@@ -3,6 +3,7 @@ import 'package:final_project/views/sign_up/components/sign_up_footer.dart';
 import 'package:final_project/views/sign_up/components/sign_up_form.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -20,7 +21,7 @@ class Body extends StatelessWidget {
             children: [
               /* -- Section-1 [Header] -- */
               BigText(
-                text: 'Sign up',
+                text: tr('Sign up'),
                 size: getProportionateScreenWidth(34),
               ),
               /* -- Section-2 [Form] -- */

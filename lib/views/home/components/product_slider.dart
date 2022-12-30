@@ -10,6 +10,7 @@ import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductSlider extends StatelessWidget {
   // final List<Product> products;
@@ -51,7 +52,7 @@ class ProductSlider extends StatelessWidget {
                           text: title,
                           size: size,
                         ),
-                  SmallText(text: 'View all'),
+                  SmallText(text: tr('View all')),
                 ],
               ),
               SizedBox(

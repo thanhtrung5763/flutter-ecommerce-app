@@ -5,6 +5,7 @@ import 'package:final_project/widgets/button_icon_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -42,15 +43,15 @@ class _LoginFormState extends State<LoginForm> {
             TextFormField(
               controller: _username,
               cursorColor: AppColors.black,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Name',
-                labelStyle: TextStyle(fontSize: 14),
-                border: OutlineInputBorder(
+                labelText: tr('Name'),
+                labelStyle: const TextStyle(fontSize: 14),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                 ),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(color: AppColors.black, width: 1.5)),
               ),
@@ -62,19 +63,19 @@ class _LoginFormState extends State<LoginForm> {
               controller: _password,
               obscureText: true,
               cursorColor: AppColors.black,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
-                  labelText: 'Password',
-                  labelStyle: TextStyle(fontSize: 14),
-                  border: OutlineInputBorder(
+                  labelText: tr('Password'),
+                  labelStyle: const TextStyle(fontSize: 14),
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
-                  focusedBorder: OutlineInputBorder(
+                  focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                       borderSide:
                           BorderSide(color: AppColors.black, width: 1.5)),
-                  suffixIcon: IconButton(
+                  suffixIcon: const IconButton(
                       onPressed: null, icon: Icon(Icons.remove_red_eye_sharp))),
             ),
             Align(
@@ -82,7 +83,7 @@ class _LoginFormState extends State<LoginForm> {
               child: TextButton(
                 onPressed: () {},
                 child: SmallText(
-                  text: 'Forgot password?',
+                  text: tr('Forgot password?'),
                   size: getProportionateScreenWidth(14),
                 ),
               ),
@@ -91,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
               height: 10,
             ),
             ButtonIconText(
-              text: 'LOGIN',
+              text: tr('LOGIN'),
               onPressed: () async {
                 final username = _username.text;
                 final password = _password.text;

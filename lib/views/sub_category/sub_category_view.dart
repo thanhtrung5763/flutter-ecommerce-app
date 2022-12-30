@@ -11,6 +11,7 @@ import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
+import 'package:easy_localization/easy_localization.dart';
 
 class SubCategoryView extends StatelessWidget {
   final BroadCategory broadCategory;
@@ -52,7 +53,7 @@ class SubCategoryView extends StatelessWidget {
                   child: Column(
                     children: [
                       ButtonIconText(
-                        text: 'VIEW ALL ITEMS',
+                        text: tr('VIEW ALL ITEMS'),
                         onPressed: () {},
                         height: 42,
                         textSize: 12,
@@ -63,7 +64,7 @@ class SubCategoryView extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: SmallText(
-                          text: 'Choose category',
+                          text: tr('Choose category'),
                           color: AppColors.grey,
                           size: 14,
                           fontWeight: FontWeight.w100,

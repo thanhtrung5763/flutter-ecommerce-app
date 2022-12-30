@@ -70,15 +70,15 @@ class _HomeViewState extends State<HomeView> {
                   BlocProvider<ProductCubit>(
                     create: (context) => _productNewCubit..getNewProducts(),
                     child: ProductSlider(
-                      title: 'New',
-                      subTitle: 'You\'ve never seen this before',
+                      title: tr('New'),
+                      subTitle: tr('You\'ve never seen this before'),
                     ),
                   ),
                   BlocProvider<ProductCubit>(
                     create: (context) =>
                         _productRecCubit..getModelBasedRecommendForUser(),
                     child: ProductSlider(
-                        title: 'Recommended', subTitle: 'Product may you like'),
+                        title: tr('Recommended'), subTitle: tr('Product may you like'),),
                   ),
                 ],
               ),
@@ -96,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
                         .toList()
                     : []),
               child: ProductSlider2(
-                title: 'Similar vibes to your Saved Items',
+                title: tr('Similar vibes to your Saved Items'),
                 backgroundColor: Colors.grey.shade100,
               ),
             ),
@@ -125,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                       BlocProvider(
                         create: (context) => _productHabitCubit,
                         child: ProductSlider2(
-                          title: 'Based on your Shopping Habit',
+                          title: tr('Based on your Shopping Habit'),
                           backgroundColor: Colors.grey.shade100,
                         ),
                       ),
@@ -136,7 +136,7 @@ class _HomeViewState extends State<HomeView> {
                         create: (context) => _productRecentlyCubit,
                         child: Stack(children: [
                           ProductSlider2(
-                            title: 'Recently Viewed',
+                            title: tr('Recently Viewed'),
                             backgroundColor: Colors.grey.shade100,
                           ),
                           Positioned(
@@ -150,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
                                 padding: EdgeInsets.all(6),
                                 color: Colors.white70,
                                 child: SmallText(
-                                  text: 'CLEAR',
+                                  text: tr('CLEAR'),
                                   size: 9,
                                   fontWeight: FontWeight.w600,
                                 ),

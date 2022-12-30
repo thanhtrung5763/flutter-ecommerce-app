@@ -3,6 +3,7 @@ import 'package:final_project/views/login/components/login_footer.dart';
 import 'package:final_project/views/login/components/login_form.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Body extends StatelessWidget {
   const Body({super.key});
@@ -20,7 +21,7 @@ class Body extends StatelessWidget {
               children: [
                 /* -- Section-1 [Header] -- */
                 BigText(
-                  text: 'Login',
+                  text: tr('Login'),
                   size: getProportionateScreenWidth(34),
                 ),
                 /* -- Section-2 [Form] -- */

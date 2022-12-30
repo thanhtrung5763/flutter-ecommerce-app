@@ -6,6 +6,7 @@ import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BagBody extends StatefulWidget {
   const BagBody({super.key});
@@ -45,7 +46,7 @@ class _BagBodyState extends State<BagBody> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SmallText(
-                        text: '$totalItems items: Total (excluding delivery) '),
+                        text: '$totalItems ${tr('items: Total (excluding delivery) ')}'),
                     SmallText(
                       text: '${totalAmount.toStringAsFixed(2)}\$',
                       fontWeight: FontWeight.w800,

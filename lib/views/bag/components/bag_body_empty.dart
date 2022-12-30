@@ -5,6 +5,7 @@ import 'package:final_project/widgets/outlined_button_icon_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BagBodyEmpty extends StatelessWidget {
   const BagBodyEmpty({super.key});
@@ -23,20 +24,20 @@ class BagBodyEmpty extends StatelessWidget {
               size: 100,
             ),
             BigText(
-              text: 'YOUR BAG IS EMPTY',
+              text: tr('YOUR BAG IS EMPTY'),
               size: 16,
             ),
             const SizedBox(
               height: 10,
             ),
             ButtonIconText(
-              text: 'VIEW SAVED ITEMS',
+              text: tr('VIEW SAVED ITEMS'),
               onPressed: () {},
               height: 42,
             ),
             OutlinedButtonIconText(
               text: SmallText(
-                text: 'CONTINUE SHOPPING',
+                text: tr('CONTINUE SHOPPING'),
                 color: AppColors.black,
                 size: 14,
               ),

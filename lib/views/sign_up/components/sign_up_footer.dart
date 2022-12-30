@@ -3,6 +3,7 @@ import 'package:final_project/widgets/outlined_button_icon_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SignUpFooter extends StatelessWidget {
   const SignUpFooter({
@@ -13,13 +14,13 @@ class SignUpFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text('OR'),
+        const Text('OR').tr(),
         const SizedBox(
           height: 20,
         ),
         OutlinedButtonIconText(
           text: SmallText(
-            text: 'Sign-in with Google',
+            text: tr('Sign-up with Google'),
             color: AppColors.black,
             size: 14,
           ),
@@ -31,7 +32,7 @@ class SignUpFooter extends StatelessWidget {
         ),
         OutlinedButtonIconText(
           text: SmallText(
-            text: 'Sign-in with Facebook',
+            text: tr('Sign-up with Facebook'),
             color: AppColors.black,
             size: 14,
           ),

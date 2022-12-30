@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/colors.dart';
 import 'package:final_project/services/cloud/bloc/bag_bloc.dart';
 import 'package:final_project/views/bag/components/bag_body.dart';
@@ -24,7 +25,7 @@ class BagView extends StatelessWidget {
                 : Colors.grey[200],
             appBar: AppBar(
               title: BigText(
-                text: 'BAG',
+                text: tr('BAG'),
                 size: 14,
               ),
               elevation: 0.5,
@@ -36,9 +37,9 @@ class BagView extends StatelessWidget {
                     padding: EdgeInsets.all(12),
                     child: ButtonIconText(
                       backgroundColor: AppColors.green,
-                      text: 'CHECKOUT',
+                      text: tr('CHECKOUT'),
                       textSize: 12,
-                      width: 92,
+                      width: 102,
                       onPressed: () {
                         context.read<BagBloc>().add(BagCheckoutEvent());
                       },

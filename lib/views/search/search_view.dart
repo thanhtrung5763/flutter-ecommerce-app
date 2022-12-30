@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -17,10 +18,10 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Tab> tabs = [
       Tab(
-        text: 'WOMEN',
+        text: tr('WOMEN'),
       ),
       Tab(
-        text: 'MEN',
+        text: tr('MEN'),
       ),
     ];
     SizeConfig().init(context);

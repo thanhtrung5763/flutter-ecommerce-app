@@ -4,6 +4,7 @@ import 'package:final_project/services/auth/cubit/auth_cubit.dart';
 import 'package:final_project/widgets/button_icon_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ConfirmationForm extends StatefulWidget {
   const ConfirmationForm({
@@ -40,15 +41,15 @@ class _ConfirmationFormState extends State<ConfirmationForm> {
             controller: _confirmationCode,
             cursorColor: AppColors.black,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
-              labelText: 'Confirmation Code',
-              labelStyle: TextStyle(fontSize: 14),
-              border: OutlineInputBorder(
+              labelText: tr('Confirmation Code'),
+              labelStyle: const TextStyle(fontSize: 14),
+              border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
               ),
-              focusedBorder: OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(color: AppColors.black, width: 1.5)),
             ),
@@ -57,7 +58,7 @@ class _ConfirmationFormState extends State<ConfirmationForm> {
             height: 10,
           ),
           ButtonIconText(
-            text: 'SUBMIT',
+            text: tr('SUBMIT'),
             onPressed: () async {
               final confirmationCode = _confirmationCode.text;
               // final isSignUpComplete = await AuthRepository.confirmSignUp(

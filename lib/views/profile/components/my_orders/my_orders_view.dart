@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MyOrdersView extends StatefulWidget {
   const MyOrdersView({super.key});
@@ -31,7 +32,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
       child: Scaffold(
         appBar: AppBar(
           title: BigText(
-            text: 'MY ORDERS',
+            text: tr('MY ORDERS'),
             size: 14,
           ),
           elevation: 0.5,
@@ -108,11 +109,11 @@ class _OrderState extends State<Order> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               BigText(
-                text: 'Order: ${widget.order.id.toString().split('-').last}',
+                text: '${tr("Order")}: ${widget.order.id.toString().split('-').last}',
                 size: 14 * 0.8,
               ),
               SmallText(
-                text: '${widget.status}',
+                text: tr('${widget.status}'),
                 color: Colors.green,
                 size: 14 * 0.7,
               ),
@@ -140,7 +141,7 @@ class _OrderState extends State<Order> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               SmallText(
-                text: 'Total Amount($totalItems items): ',
+                text: '${tr("Total Amount")}($totalItems ${tr("items")}): ',
                 size: 14 * 0.8,
               ),
               BigText(
@@ -245,7 +246,7 @@ class ListItem extends StatelessWidget {
                                 ),
                           Spacer(),
                           BigText(
-                            text: 'Size: ${bagProduct.size}',
+                            text: '${tr("Size")}: ${bagProduct.size}',
                             size: 14 * 0.7,
                           ),
                           SizedBox(
@@ -262,7 +263,7 @@ class ListItem extends StatelessWidget {
                                   width: 10,
                                 ),
                                 BigText(
-                                  text: 'Quantity: ${bagProduct.quantity}',
+                                  text: '${tr("Quantity")}: ${bagProduct.quantity}',
                                   size: 14 * 0.7,
                                 ),
                               ],
@@ -280,11 +281,11 @@ class ListItem extends StatelessWidget {
                               bagProduct.isRated! == false,
                           child: OutlinedButtonIconText(
                             text: SmallText(
-                              text: 'Review',
+                              text: tr('Review'),
                               size: 14 * 0.7,
                             ),
                             borderWidth: 0.5,
-                            width: 70,
+                            width: 75,
                             height: 20,
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(

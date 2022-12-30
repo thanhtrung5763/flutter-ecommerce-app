@@ -2,6 +2,7 @@ import 'package:final_project/size_config.dart';
 import 'package:final_project/views/saved_storage/components/body.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SavedStorageView extends StatelessWidget {
   const SavedStorageView({super.key});
@@ -12,7 +13,7 @@ class SavedStorageView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: BigText(
-            text: 'SAVED ITEMS',
+            text: tr('SAVED ITEMS'),
             size: 14,
           ),
           elevation: 0.5,

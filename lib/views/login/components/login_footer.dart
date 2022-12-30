@@ -5,6 +5,7 @@ import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginFooter extends StatelessWidget {
   const LoginFooter({
@@ -17,13 +18,13 @@ class LoginFooter extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            const Text('OR'),
+            const Text('OR').tr(),
             const SizedBox(
               height: 20,
             ),
             OutlinedButtonIconText(
               text: SmallText(
-                text: 'Sign-in with Google',
+                text: tr('Sign-in with Google'),
                 color: AppColors.black,
                 size: 14,
               ),
@@ -36,7 +37,7 @@ class LoginFooter extends StatelessWidget {
             OutlinedButtonIconText(
               
               text: SmallText(
-                text: 'Sign-in with Facebook',
+                text: tr('Sign-in with Facebook'),
                 color: AppColors.black,
                 size: 14,
               ),
@@ -54,11 +55,11 @@ class LoginFooter extends StatelessWidget {
               },
               child: Text.rich(
                 TextSpan(
-                  text: 'Don\'t have an Account? ',
+                  text: tr('Don\'t have an Account? '),
                   style: TextStyle(color: AppColors.black),
-                  children: const [
+                  children: [
                     TextSpan(
-                      text: 'Sign Up',
+                      text: tr('Sign Up'),
                       style: TextStyle(color: AppColors.redPrimary),
                     )
                   ],

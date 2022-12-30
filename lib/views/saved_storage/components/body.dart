@@ -9,6 +9,7 @@ import 'package:final_project/widgets/button_icon_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -31,7 +32,7 @@ class Body extends StatelessWidget {
                   children: [
                     SmallText(
                         text:
-                            '${state.savedStorage.SavedStorageProducts!.length} items'),
+                            '${state.savedStorage.SavedStorageProducts!.length} ${tr('items')}'),
                     DropdownButtonHideUnderline(
                       child: DropdownButton(
                         isDense: true,
@@ -42,7 +43,7 @@ class Body extends StatelessWidget {
                           size: 18,
                         ),
                         hint: SmallText(
-                          text: 'Recently added',
+                          text: tr('Recently added'),
                         ),
                         items: Constants.lDropDown.map((String items) {
                           return DropdownMenuItem(
@@ -171,9 +172,9 @@ class _ProductInfoState extends State<ProductInfo> {
                         context.read<SavedStorageBloc>().add(
                             SavedStorageRemoveItemEvent(index: widget.index));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             backgroundColor: Colors.red,
-                            content: Text('Deleted Item'),
+                            content: Text('Deleted Item').tr(),
                           ),
                         );
                       } else if (value == PopupMenuValue.similar_items) {
@@ -200,7 +201,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: 'Move to bag',
+                              text: tr('Move to bag'),
                               size: 15,
                             ),
                             const Icon(Icons.shopping_bag_outlined),
@@ -213,7 +214,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: 'More info',
+                              text: tr('More info'),
                               size: 15,
                             ),
                             const Icon(Icons.info_outlined),
@@ -226,7 +227,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: 'See similar items',
+                              text: tr('See similar items'),
                               size: 15,
                             ),
                             const Icon(Icons.search_rounded),
@@ -239,7 +240,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: 'Delete',
+                              text: tr('Delete'),
                               size: 15,
                               color: AppColors.redPrimary,
                             ),
@@ -316,13 +317,13 @@ class _ProductInfoState extends State<ProductInfo> {
                   width: 12,
                 ),
                 ButtonIconText(
-                  text: 'MOVE TO BAG',
+                  text: tr('MOVE TO BAG'),
                   onPressed: () {
                     if (_selectedSize == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: Colors.green,
-                          content: Text('Please select size'),
+                          content: Text('Please select size').tr(),
                         ),
                       );
                     } else {
@@ -332,9 +333,9 @@ class _ProductInfoState extends State<ProductInfo> {
                       context.read<SavedStorageBloc>().add(
                           SavedStorageRemoveItemEvent(index: widget.index));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           backgroundColor: AppColors.greenSuccess,
-                          content: Text('It\'s in the bag'),
+                          content: Text('It\'s in the bag').tr(),
                         ),
                       );
                     }

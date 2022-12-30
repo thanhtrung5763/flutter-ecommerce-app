@@ -5,6 +5,7 @@ import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductCard extends StatefulWidget {
   final Product? product;
@@ -133,7 +134,7 @@ class _ProductCardState extends State<ProductCard> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: Colors.green,
-                            content: Text('Saved Item'),
+                            content: Text('Saved Item').tr(),
                           ),
                         );
                       } else {
@@ -143,7 +144,7 @@ class _ProductCardState extends State<ProductCard> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: Colors.red,
-                            content: Text('Removed Item'),
+                            content: Text('Removed Item').tr(),
                           ),
                         );
                       }
