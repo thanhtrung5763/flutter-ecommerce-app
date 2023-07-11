@@ -1,6 +1,6 @@
-import 'package:final_project/services/cloud/bloc/bag_bloc.dart';
-import 'package:final_project/services/cloud/bloc/saved_storage_bloc.dart';
-import 'package:final_project/services/cloud/cubit/product_cubit.dart';
+import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
+import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
+import 'package:final_project/services/cloud/cubit/product/product_cubit.dart';
 import 'package:final_project/views/home/components/product_card.dart';
 import 'package:final_project/views/product/product_view.dart';
 import 'package:final_project/widgets/big_text.dart';

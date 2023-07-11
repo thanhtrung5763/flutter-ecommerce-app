@@ -1,11 +1,11 @@
-import 'package:final_project/colors.dart';
+import 'package:final_project/utils/colors.dart';
+import 'package:final_project/utils/helper.dart';
 import 'package:final_project/models/ModelProvider.dart';
-import 'package:final_project/services/cloud/bloc/saved_storage_bloc.dart';
+import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class ProductCard extends StatefulWidget {
   final Product? product;
@@ -27,7 +27,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    bool _isSelected = widget.isSelected;
+    bool isSelected = widget.isSelected;
     return BlocBuilder<SavedStorageBloc, SavedStorageState>(
       builder: (context, state) {
         return SizedBox(
@@ -46,8 +46,7 @@ class _ProductCardState extends State<ProductCard> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                              widget.product!.images!.split('|').first),
+                          image: NetworkImage(widget.product!.images!.split('|').first),
                         ),
                       ),
                     ),
@@ -58,19 +57,58 @@ class _ProductCardState extends State<ProductCard> {
                       top: 10,
                       left: 0,
                       child: Container(
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                            color: AppColors.whiteTag,
-                            shape: BoxShape.rectangle),
+                        padding: const EdgeInsets.all(2),
+                        decoration: const BoxDecoration(color: AppColors.whiteTag, shape: BoxShape.rectangle),
                         child: SmallText(
                           text: widget.product!.discountOffer != ''
                               ? '-${100 - int.parse(widget.product!.discountOffer!.split('%')[0])}%'
                               : 'NEW',
                           size: 10,
                           fontWeight: FontWeight.w700,
-                          color: widget.product!.discountOffer != ''
-                              ? AppColors.redPrimary
-                              : AppColors.black,
+                          color: widget.product!.discountOffer != '' ? AppColors.redPrimary : AppColors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 12,
+                    left: 0,
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      decoration: const ShapeDecoration(
+                        shape: StadiumBorder(),
+                        color: AppColors.whiteTag,
+                      ),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            SmallText(
+                              text: '${Helper.calculateAverageRating(widget.product!.Reviews) ?? 5.0}',
+                              size: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            const Icon(
+                              Icons.star,
+                              color: Colors.black87,
+                              size: 9,
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            const VerticalDivider(
+                              width: 6,
+                              indent: 2,
+                              endIndent: 2,
+                              color: AppColors.grey04,
+                            ),
+                            SmallText(
+                              text: '(${widget.product!.Reviews?.length ?? 10})',
+                              size: 10,
+                              color: AppColors.black.withOpacity(0.7),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -105,51 +143,68 @@ class _ProductCardState extends State<ProductCard> {
               ),
               Row(
                 children: [
-                  Wrap(
-                    children: List.generate(
-                      5,
-                      (index) => Icon(
-                        Icons.star,
-                        color: Colors.black87,
-                        size: 14,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  SmallText(
-                    text: '(10)',
-                    color: AppColors.grey,
-                  ),
+                  widget.product!.discountOffer != ''
+                      ? Row(
+                          children: [
+                            Text(
+                              '${widget.product!.originalPrice}\$',
+                              style: const TextStyle(
+                                  decoration: TextDecoration.lineThrough,
+                                  decorationStyle: TextDecorationStyle.solid,
+                                  decorationColor: AppColors.grey,
+                                  decorationThickness: 5,
+                                  color: AppColors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            BigText(
+                              text: '${widget.product!.discountPrice}\$',
+                              size: 14,
+                              color: AppColors.redPrimary,
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            BigText(
+                              text: '${widget.product!.originalPrice}\$',
+                              size: 14,
+                              color: AppColors.redPrimary,
+                            ),
+                          ],
+                        ),
                   const Spacer(),
                   IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     onPressed: () {
-                      _isSelected = !_isSelected;
-                      if (_isSelected) {
-                        context.read<SavedStorageBloc>().add(
-                            SavedStorageAddItemEvent(product: widget.product!));
+                      isSelected = !isSelected;
+                      if (isSelected) {
+                        context.read<SavedStorageBloc>().add(SavedStorageAddItemEvent(product: widget.product!));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.green,
-                            content: Text('Saved Item').tr(),
+                          const SnackBar(
+                            duration: Duration(milliseconds: 1500),
+                            backgroundColor: AppColors.green,
+                            content: Text('Saved Item'),
                           ),
                         );
                       } else {
-                        context.read<SavedStorageBloc>().add(
-                            SavedStorageRemoveItemEvent(
-                                productID: widget.product!.id));
+                        context
+                            .read<SavedStorageBloc>()
+                            .add(SavedStorageRemoveItemEvent(productID: widget.product!.id));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text('Removed Item').tr(),
+                          const SnackBar(
+                            duration: Duration(milliseconds: 1500),
+                            backgroundColor: AppColors.red,
+                            content: Text('Removed Item'),
                           ),
                         );
                       }
                     },
-                    icon: _isSelected
+                    icon: isSelected
                         ? const Icon(
                             Icons.favorite_rounded,
                             color: AppColors.black,
@@ -166,7 +221,7 @@ class _ProductCardState extends State<ProductCard> {
               Text(
                 '${widget.product!.brand!.title}',
                 maxLines: 1,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.grey,
                   fontSize: 11,
                 ),
@@ -182,39 +237,6 @@ class _ProductCardState extends State<ProductCard> {
               const SizedBox(
                 height: 3,
               ),
-              widget.product!.discountOffer != ''
-                  ? Row(
-                      children: [
-                        Text(
-                          '${widget.product!.originalPrice}\$',
-                          style: TextStyle(
-                              decoration: TextDecoration.lineThrough,
-                              decorationStyle: TextDecorationStyle.solid,
-                              decorationColor: AppColors.grey,
-                              decorationThickness: 5,
-                              color: AppColors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        BigText(
-                          text: '${widget.product!.discountPrice}\$',
-                          size: 14,
-                          color: AppColors.redPrimary,
-                        ),
-                      ],
-                    )
-                  : Row(
-                      children: [
-                        BigText(
-                          text: '${widget.product!.originalPrice}\$',
-                          size: 14,
-                          color: AppColors.redPrimary,
-                        ),
-                      ],
-                    ),
             ],
           ),
         );
