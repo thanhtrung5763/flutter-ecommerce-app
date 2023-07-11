@@ -7,6 +7,7 @@ import 'package:final_project/models/ModelProvider.dart';
 import 'package:final_project/utils/queries.dart';
 import 'package:final_project/services/cloud/product_service.dart';
 import 'package:meta/meta.dart';
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 part 'product_state.dart';
 
@@ -222,7 +223,8 @@ class ProductCubit extends Cubit<ProductState> {
   void getProductsOfSearch(String text) async {
     if (state is ProductLoaded == false) {
       emit(ProductLoading());
-      QueryPredicate predicate = (Product.TITLE.contains(text));
+      text = text.toLowerCase();
+      QueryPredicateGroup predicate = (Product.TITLE.contains(text)).or(Product.TITLE.contains(toBeginningOfSentenceCase(text)!));
       requestForNextResult =
           ModelQueries.list(Product.classType, where: predicate);
     }

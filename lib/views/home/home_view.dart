@@ -1,11 +1,13 @@
 import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
 import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
+import 'package:final_project/services/cloud/bloc/tracking_bloc.dart';
 import 'package:final_project/services/cloud/cubit/brand/brand_cubit.dart';
 import 'package:final_project/services/cloud/cubit/product/product_cubit.dart';
 import 'package:final_project/size_config.dart';
 import 'package:final_project/views/catalog/catalog_view.dart';
 import 'package:final_project/views/home/components/product_card.dart';
 import 'package:final_project/views/home/components/product_slider.dart';
+import 'package:final_project/views/home/components/product_slider_2.dart';
 import 'package:final_project/views/product/product_view.dart';
 import 'package:final_project/views/search/components/prefill_search.dart';
 import 'package:final_project/widgets/big_text.dart';
@@ -25,8 +27,8 @@ class _HomeViewState extends State<HomeView> {
   final ProductCubit _productNewCubit = ProductCubit();
   final ProductCubit _productRecCubit = ProductCubit();
   final ProductCubit _productSavedCubit = ProductCubit();
-  final ProductCubit _productRecentlyCubit = ProductCubit();
-  final ProductCubit _productHabitCubit = ProductCubit();
+  ProductCubit _productRecentlyCubit = ProductCubit();
+  ProductCubit _productHabitCubit = ProductCubit();
   final BrandCubit _brandCubit = BrandCubit();
 
   @override
@@ -205,84 +207,84 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 ),
               ),
-              // BlocProvider(
-              //   create: (context) => _productSavedCubit
-              //     ..getContentBasedRecommendForUser((context.read<SavedStorageBloc>().state is SavedStorageLoadedState)
-              //         ? (context.read<SavedStorageBloc>().state as SavedStorageLoadedState)
-              //             .savedStorage
-              //             .SavedStorageProducts!
-              //             .map((e) => e.productID)
-              //             .toList()
-              //         : []),
-              //   child: ProductSlider2(
-              //     title: 'Similar vibes to your Saved Items',
-              //     backgroundColor: Colors.grey.shade100,
-              //   ),
-              // ),
-              // // UNCOMMENT LATER
-              // const SizedBox(
-              //   height: 10,
-              // ),
+              BlocProvider(
+                create: (context) => _productSavedCubit
+                  ..getContentBasedRecommendForUser((context.read<SavedStorageBloc>().state is SavedStorageLoadedState)
+                      ? (context.read<SavedStorageBloc>().state as SavedStorageLoadedState)
+                          .savedStorage
+                          .SavedStorageProducts!
+                          .map((e) => e.productID)
+                          .toList()
+                      : []),
+                child: ProductSlider2(
+                  title: 'Similar vibes to your Saved Items',
+                  backgroundColor: Colors.grey.shade100,
+                ),
+              ),
+              // UNCOMMENT LATER
+              const SizedBox(
+                height: 10,
+              ),
 
-              // BlocBuilder<TrackingBloc, String>(
-              //   builder: (context, state) {
-              //     print("S: ${state != ""} ");
-              //     if (state != "") {
-              //       List<String> productIds = state.split(",");
-              //       productIds.removeLast();
-              //       print(productIds);
-              //       if (_productRecentlyCubit.isClosed) {
-              //         _productRecentlyCubit = ProductCubit();
-              //       }
-              //       if (_productHabitCubit.isClosed) {
-              //         _productHabitCubit = ProductCubit();
-              //       }
-              //       _productRecentlyCubit.getRecentlyViewProducts(productIds);
-              //       _productHabitCubit.getContentBasedRecommendForUser(productIds);
-              //       return Column(
-              //         children: [
-              //           BlocProvider(
-              //             create: (context) => _productHabitCubit,
-              //             child: ProductSlider2(
-              //               title: 'Based on your Shopping Habit',
-              //               backgroundColor: Colors.grey.shade100,
-              //             ),
-              //           ),
-              //           const SizedBox(
-              //             height: 10,
-              //           ),
-              //           BlocProvider(
-              //             create: (context) => _productRecentlyCubit,
-              //             child: Stack(children: [
-              //               ProductSlider2(
-              //                 title: 'Recently Viewed',
-              //                 backgroundColor: Colors.grey.shade100,
-              //               ),
-              //               Positioned(
-              //                 right: 10,
-              //                 top: 12,
-              //                 child: GestureDetector(
-              //                   onTap: () => BlocProvider.of<TrackingBloc>(context).add(TrackingProductClearEvent()),
-              //                   child: Container(
-              //                     padding: const EdgeInsets.all(6),
-              //                     color: Colors.white70,
-              //                     child: SmallText(
-              //                       text: 'CLEAR',
-              //                       size: 9,
-              //                       fontWeight: FontWeight.w600,
-              //                     ),
-              //                   ),
-              //                 ),
-              //               ),
-              //             ]),
-              //           ),
-              //         ],
-              //       );
-              //     } else {
-              //       return Container();
-              //     }
-              //   },
-              // ),
+              BlocBuilder<TrackingBloc, String>(
+                builder: (context, state) {
+                  print("S: ${state != ""} ");
+                  if (state != "") {
+                    List<String> productIds = state.split(",");
+                    productIds.removeLast();
+                    print(productIds);
+                    if (_productRecentlyCubit.isClosed) {
+                      _productRecentlyCubit = ProductCubit();
+                    }
+                    if (_productHabitCubit.isClosed) {
+                      _productHabitCubit = ProductCubit();
+                    }
+                    _productRecentlyCubit.getRecentlyViewProducts(productIds);
+                    _productHabitCubit.getContentBasedRecommendForUser(productIds);
+                    return Column(
+                      children: [
+                        BlocProvider(
+                          create: (context) => _productHabitCubit,
+                          child: ProductSlider2(
+                            title: 'Based on your Shopping Habit',
+                            backgroundColor: Colors.grey.shade100,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BlocProvider(
+                          create: (context) => _productRecentlyCubit,
+                          child: Stack(children: [
+                            ProductSlider2(
+                              title: 'Recently Viewed',
+                              backgroundColor: Colors.grey.shade100,
+                            ),
+                            Positioned(
+                              right: 10,
+                              top: 12,
+                              child: GestureDetector(
+                                onTap: () => BlocProvider.of<TrackingBloc>(context).add(TrackingProductClearEvent()),
+                                child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  color: Colors.white70,
+                                  child: SmallText(
+                                    text: 'CLEAR',
+                                    size: 9,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ]),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
               // UNCOMMENT LATER
               // KeyPicksCategoriesWidget(),
               const SizedBox(

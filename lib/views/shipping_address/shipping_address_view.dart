@@ -1,6 +1,6 @@
-import 'package:final_project/utils/colors.dart';
 import 'package:final_project/models/ShippingAddress.dart';
 import 'package:final_project/services/cloud/bloc/shipping_address/shipping_address_bloc.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/views/shipping_address/components/add_edit_shipping_address_view.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/outlined_button_icon_text.dart';
@@ -99,56 +99,58 @@ class ShippingAddressView extends StatelessWidget {
                                           const SizedBox(
                                             width: 8,
                                           ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  SmallText(
-                                                    text: '${shippingAddresses[index].name}',
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  SmallText(
-                                                      text: '${shippingAddresses[index].phone}',
-                                                      fontWeight: FontWeight.w200,
-                                                      color: AppColors.grey)
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                              SmallText(
-                                                text: '${shippingAddresses[index].street}',
-                                                size: 10,
-                                              ),
-                                              const SizedBox(
-                                                height: 4,
-                                              ),
-                                              SmallText(
-                                                text:
-                                                    '${shippingAddresses[index].ward}, ${shippingAddresses[index].district}, ${shippingAddresses[index].province}',
-                                                size: 10,
-                                              ),
-                                              Visibility(
-                                                visible: shippingAddresses[index].id ==
-                                                    repository.currentUser.defaultShippingAddressID,
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(top: 8),
-                                                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                                                  decoration: BoxDecoration(border: Border.all(color: AppColors.red)),
-                                                  child: SmallText(
-                                                    text: 'Default',
-                                                    size: 9,
-                                                    color: AppColors.red,
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    SmallText(
+                                                      text: '${shippingAddresses[index].name}',
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    SmallText(
+                                                        text: '${shippingAddresses[index].phone}',
+                                                        fontWeight: FontWeight.w200,
+                                                        color: AppColors.grey)
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                SmallText(
+                                                  text: '${shippingAddresses[index].street}',
+                                                  size: 10,
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                SmallText(
+                                                  text:
+                                                      '${shippingAddresses[index].ward}, ${shippingAddresses[index].district}, ${shippingAddresses[index].province}',
+                                                  size: 10,
+                                                ),
+                                                Visibility(
+                                                  visible: shippingAddresses[index].id ==
+                                                      repository.currentUser.defaultShippingAddressID,
+                                                  child: Container(
+                                                    margin: const EdgeInsets.only(top: 8),
+                                                    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                                                    decoration: BoxDecoration(border: Border.all(color: AppColors.red)),
+                                                    child: SmallText(
+                                                      text: 'Default',
+                                                      size: 9,
+                                                      color: AppColors.red,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                          const Spacer(),
+                                          // const Spacer(),
                                           Material(
                                             child: InkWell(
                                               onTap: () {
