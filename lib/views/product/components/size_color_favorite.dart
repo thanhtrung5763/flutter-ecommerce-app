@@ -1,5 +1,5 @@
-import 'package:final_project/colors.dart';
-import 'package:final_project/constants.dart';
+import 'package:final_project/utils/colors.dart';
+import 'package:final_project/utils/constants.dart';
 import 'package:final_project/widgets/button_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
