@@ -7,5 +7,6 @@ class UnknownSessionState extends SessionState {}
 class Unauthenticated extends SessionState {}
 class Authenticated extends SessionState {
   final User? user;
-  Authenticated({required this.user});
+  bool isNewUser;
+  Authenticated({required this.user, this.isNewUser=false});
 }

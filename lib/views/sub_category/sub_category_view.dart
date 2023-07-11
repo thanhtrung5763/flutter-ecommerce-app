@@ -1,8 +1,8 @@
-import 'package:final_project/colors.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/models/BroadCategory.dart';
-import 'package:final_project/services/cloud/bloc/bag_bloc.dart';
-import 'package:final_project/services/cloud/bloc/saved_storage_bloc.dart';
-import 'package:final_project/services/cloud/cubit/finer_category_cubit.dart';
+import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
+import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
+import 'package:final_project/services/cloud/cubit/finer_category/finer_category_cubit.dart';
 import 'package:final_project/size_config.dart';
 import 'package:final_project/views/catalog/catalog_view.dart';
 import 'package:final_project/widgets/big_text.dart';
@@ -11,7 +11,6 @@ import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
-import 'package:easy_localization/easy_localization.dart';
 
 class SubCategoryView extends StatelessWidget {
   final BroadCategory broadCategory;
@@ -34,26 +33,26 @@ class SubCategoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return BlocProvider(
-      create: (context) =>
-          FinerCategoryCubit()..getFinerCategoriesOfBroad(broadCategory),
+      create: (context) => FinerCategoryCubit()..getFinerCategoriesOfBroad(broadCategory),
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: BigText(
-            text: '${broadCategory.title!.toUpperCase()}',
+            text: broadCategory.title!.toUpperCase(),
             size: 14,
           ),
-          elevation: 0.5,
         ),
         body: BlocBuilder<FinerCategoryCubit, FinerCategoryState>(
           builder: (context, state) {
             if (state is FinerCategoryLoaded) {
               return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                   child: Column(
                     children: [
                       ButtonIconText(
-                        text: tr('VIEW ALL ITEMS'),
+                        text: 'VIEW ALL ITEMS',
                         onPressed: () {},
                         height: 42,
                         textSize: 12,
@@ -64,7 +63,7 @@ class SubCategoryView extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: SmallText(
-                          text: tr('Choose category'),
+                          text: 'Choose category',
                           color: AppColors.grey,
                           size: 14,
                           fontWeight: FontWeight.w100,
@@ -74,26 +73,26 @@ class SubCategoryView extends StatelessWidget {
                       ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
+                        padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
                           return ListTile(
+                            dense: true,
                             title: GestureDetector(
-                              onTap: () =>
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => BlocProvider.value(
-                                            value: BlocProvider.of<BagBloc>(
-                                                context),
-                                            child: BlocProvider.value(
-                                              value: BlocProvider.of<
-                                                  SavedStorageBloc>(context),
-                                              child: CatalogView(
-                                                finerCategory: state
-                                                    .finerCategories[index],
-                                              ),
-                                            ),
-                                          ))),
+                              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => BlocProvider.value(
+                                        value: BlocProvider.of<BagBloc>(context),
+                                        child: BlocProvider.value(
+                                          value: BlocProvider.of<SavedStorageBloc>(context),
+                                          child: CatalogView(
+                                            finerCategory: state.finerCategories[index],
+                                          ),
+                                        ),
+                                      ))),
                               child: SmallText(
-                                text:
-                                    '${state.finerCategories[index].title!.split('-').map((e) => toBeginningOfSentenceCase(e)).join(' ')}',
+                                text: state.finerCategories[index].title!
+                                    .split('-')
+                                    .map((e) => toBeginningOfSentenceCase(e))
+                                    .join(' '),
                                 size: 12,
                                 fontWeight: FontWeight.w100,
                               ),
@@ -103,6 +102,7 @@ class SubCategoryView extends StatelessWidget {
                         separatorBuilder: (context, index) {
                           return const Divider(
                             thickness: 1,
+                            height: 1,
                           );
                         },
                         itemCount: state.finerCategories.length,

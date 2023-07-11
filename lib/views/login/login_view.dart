@@ -5,6 +5,7 @@ import 'package:final_project/size_config.dart';
 import 'package:final_project/views/login/components/body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
@@ -12,6 +13,8 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: BlocProvider(
         create: (context) => AuthBloc(
           authRepo: context.read<AuthRepository>(),

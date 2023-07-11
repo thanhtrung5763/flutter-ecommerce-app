@@ -1,15 +1,15 @@
-import 'package:final_project/colors.dart';
-import 'package:final_project/constants.dart';
+import 'package:final_project/utils/colors.dart';
+import 'package:final_project/utils/constants.dart';
 import 'package:final_project/models/Product.dart';
-import 'package:final_project/services/cloud/bloc/bag_bloc.dart';
-import 'package:final_project/services/cloud/bloc/saved_storage_bloc.dart';
+import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
+import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
+import 'package:final_project/utils/sizes.dart';
 import 'package:final_project/views/catalog/catalog_view.dart';
 import 'package:final_project/widgets/big_text.dart';
-import 'package:final_project/widgets/button_icon_text.dart';
+import 'package:final_project/widgets/outlined_button_icon_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class Body extends StatelessWidget {
   const Body({
@@ -24,15 +24,12 @@ class Body extends StatelessWidget {
           return Column(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                 color: Colors.grey.withOpacity(0.25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SmallText(
-                        text:
-                            '${state.savedStorage.SavedStorageProducts!.length} ${tr('items')}'),
+                    SmallText(text: '${state.savedStorage.SavedStorageProducts!.length} ${'items'}'),
                     DropdownButtonHideUnderline(
                       child: DropdownButton(
                         isDense: true,
@@ -43,7 +40,7 @@ class Body extends StatelessWidget {
                           size: 18,
                         ),
                         hint: SmallText(
-                          text: tr('Recently added'),
+                          text: 'Recently added',
                         ),
                         items: Constants.lDropDown.map((String items) {
                           return DropdownMenuItem(
@@ -61,11 +58,9 @@ class Body extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 child: ListView.separated(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => ListItem(
-                      index: index,
-                      product: state
-                          .savedStorage.SavedStorageProducts![index].product!),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) =>
+                      ListItem(index: index, product: state.savedStorage.SavedStorageProducts![index].product!),
                   itemCount: state.savedStorage.SavedStorageProducts!.length,
                   separatorBuilder: (context, index) => const Divider(),
                 ),
@@ -121,7 +116,7 @@ class ProductInfo extends StatefulWidget {
 }
 
 class _ProductInfoState extends State<ProductInfo> {
-  String? _selectedSize = null;
+  String? _selectedSize;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -166,15 +161,17 @@ class _ProductInfoState extends State<ProductInfo> {
                       ),
                 SizedBox(
                   height: 30,
+                  width: 16,
                   child: PopupMenuButton(
+                    splashRadius: 16.0,
                     onSelected: (value) {
                       if (value == PopupMenuValue.delete) {
-                        context.read<SavedStorageBloc>().add(
-                            SavedStorageRemoveItemEvent(index: widget.index));
+                        context.read<SavedStorageBloc>().add(SavedStorageRemoveItemEvent(index: widget.index));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.red,
-                            content: Text('Deleted Item').tr(),
+                          const SnackBar(
+                            duration: Duration(milliseconds: 1500),
+                            backgroundColor: AppColors.red,
+                            content: Text('Deleted Item'),
                           ),
                         );
                       } else if (value == PopupMenuValue.similar_items) {
@@ -184,10 +181,8 @@ class _ProductInfoState extends State<ProductInfo> {
                               //   productID: product.id,
                               // ),
                               builder: (_) => BlocProvider.value(
-                                    value: BlocProvider.of<SavedStorageBloc>(
-                                        context),
-                                    child: CatalogView(
-                                        productID: widget.product.id),
+                                    value: BlocProvider.of<SavedStorageBloc>(context),
+                                    child: CatalogView(productID: widget.product.id),
                                   )),
                         );
                       }
@@ -201,8 +196,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: tr('Move to bag'),
-                              size: 15,
+                              text: 'Move to bag',
                             ),
                             const Icon(Icons.shopping_bag_outlined),
                           ],
@@ -214,8 +208,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: tr('More info'),
-                              size: 15,
+                              text: 'More info',
                             ),
                             const Icon(Icons.info_outlined),
                           ],
@@ -227,8 +220,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: tr('See similar items'),
-                              size: 15,
+                              text: 'See similar items',
                             ),
                             const Icon(Icons.search_rounded),
                           ],
@@ -240,8 +232,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SmallText(
-                              text: tr('Delete'),
-                              size: 15,
+                              text: 'Delete',
                               color: AppColors.redPrimary,
                             ),
                             const Icon(
@@ -294,9 +285,7 @@ class _ProductInfoState extends State<ProductInfo> {
                         size: 10,
                       ),
                       value: _selectedSize,
-                      items: widget.product.sizeOption!
-                          .split(',')
-                          .map((String item) {
+                      items: widget.product.sizeOption!.split(',').map((String item) {
                         return DropdownMenuItem(
                           value: item,
                           child: BigText(
@@ -316,33 +305,33 @@ class _ProductInfoState extends State<ProductInfo> {
                 const SizedBox(
                   width: 12,
                 ),
-                ButtonIconText(
-                  text: tr('MOVE TO BAG'),
+                OutlinedButtonIconText(
+                  text: 'MOVE TO BAG',
+                  colorBorderSide: AppColors.green,
                   onPressed: () {
                     if (_selectedSize == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
+                          duration: Duration(milliseconds: 1500),
                           backgroundColor: Colors.green,
-                          content: Text('Please select size').tr(),
+                          content: Text('Please select size'),
                         ),
                       );
                     } else {
-                      context
-                          .read<BagBloc>()
-                          .add(BagAddItemEvent(product: widget.product, size: _selectedSize!));
-                      context.read<SavedStorageBloc>().add(
-                          SavedStorageRemoveItemEvent(index: widget.index));
+                      context.read<BagBloc>().add(BagAddItemEvent(product: widget.product, size: _selectedSize!));
+                      context.read<SavedStorageBloc>().add(SavedStorageRemoveItemEvent(index: widget.index));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: AppColors.greenSuccess,
-                          content: Text('It\'s in the bag').tr(),
+                        const SnackBar(
+                          duration: Duration(milliseconds: 1500),
+                          backgroundColor: AppColors.green,
+                          content: Text('It\'s in the bag'),
                         ),
                       );
                     }
                   },
-                  height: 30,
-                  width: 80,
-                  textSize: 9,
+                  height: AppSizes.kHeightTiny,
+                  width: null,
+                  textSize: AppSizes.kTextSizeTiny,
                 ),
               ],
             ),
@@ -363,9 +352,7 @@ class ProductImage extends StatelessWidget {
       height: 120,
       width: 110, //148
       decoration: BoxDecoration(
-        image: DecorationImage(
-            fit: BoxFit.fill,
-            image: NetworkImage(product.images!.split('|').first)),
+        image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(product.images!.split('|').first)),
       ),
     );
   }

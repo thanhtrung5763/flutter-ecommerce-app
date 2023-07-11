@@ -1,15 +1,11 @@
-import 'package:final_project/colors.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/models/BroadCategory.dart';
-import 'package:final_project/services/cloud/bloc/saved_storage_bloc.dart';
-import 'package:final_project/services/cloud/cubit/broad_category_cubit.dart';
+import 'package:final_project/services/cloud/cubit/broad_category/broad_category_cubit.dart';
 import 'package:final_project/size_config.dart';
-import 'package:final_project/views/catalog/catalog_view.dart';
 import 'package:final_project/views/search/components/category_card.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:final_project/views/search/components/prefill_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -17,11 +13,11 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Tab> tabs = [
-      Tab(
-        text: tr('WOMEN'),
+      const Tab(
+        text: 'WOMEN',
       ),
-      Tab(
-        text: tr('MEN'),
+      const Tab(
+        text: 'MEN',
       ),
     ];
     SizeConfig().init(context);
@@ -38,13 +34,15 @@ class SearchView extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             title: const MyPrefilledSearch(),
+            titleSpacing: 10,
             bottom: TabBar(
               labelColor: AppColors.black,
               tabs: tabs,
-              indicatorColor: AppColors.redPrimary,
-              indicatorPadding: EdgeInsets.only(left: 10, right: 10),
-              labelStyle: TextStyle(
+              indicatorColor: AppColors.black,
+              indicatorPadding: const EdgeInsets.only(left: 10, right: 10),
+              labelStyle: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
@@ -109,45 +107,6 @@ class BroadTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: broadCategories.length,
-        itemBuilder: (context, index) =>
-            CategoryCard(broadCategory: broadCategories[index]));
-  }
-}
-
-class MyPrefilledSearch extends StatefulWidget {
-  const MyPrefilledSearch({Key? key}) : super(key: key);
-
-  @override
-  State<MyPrefilledSearch> createState() => _MyPrefilledSearchState();
-}
-
-class _MyPrefilledSearchState extends State<MyPrefilledSearch> {
-  late TextEditingController _textController;
-
-  @override
-  void initState() {
-    super.initState();
-    _textController = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoSearchTextField(
-      controller: _textController,
-      borderRadius: BorderRadius.circular(20),
-      onChanged: (value) => print('Text has changed to: $value'),
-      onSubmitted: (value) {
-        // => print('Submitted text: $value')
-        Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (_) => BlocProvider.value(
-                    value: BlocProvider.of<SavedStorageBloc>(context),
-                    child: CatalogView(
-                      textSearch: value,
-                    ),
-                  )),
-        );
-      },
-    );
+        itemBuilder: (context, index) => CategoryCard(broadCategory: broadCategories[index]));
   }
 }

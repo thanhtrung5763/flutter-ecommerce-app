@@ -1,14 +1,11 @@
-import 'package:final_project/colors.dart';
-import 'package:final_project/services/auth/auth_repository.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/services/auth/bloc/auth_bloc.dart';
 import 'package:final_project/services/auth/cubit/auth_cubit.dart';
-import 'package:final_project/size_config.dart';
-import 'package:final_project/views/confirm/confirmation_view.dart';
 import 'package:final_project/widgets/button_icon_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({
@@ -23,6 +20,7 @@ class _SignUpFormState extends State<SignUpForm> {
   late final TextEditingController _username;
   late final TextEditingController _email;
   late final TextEditingController _password;
+  bool _passwordVisible = false;
 
   @override
   void initState() {
@@ -54,18 +52,17 @@ class _SignUpFormState extends State<SignUpForm> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
-              labelText: tr('Name'),
-              labelStyle: const TextStyle(fontSize: 14),
+              labelText: 'Name',
+              labelStyle: TextStyle(fontSize: 14.sp),
               border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderRadius: BorderRadius.zero,
               ),
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  borderSide: BorderSide(color: AppColors.black, width: 1.5)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero, borderSide: BorderSide(color: AppColors.black, width: 1.5.w)),
             ),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.h,
           ),
           TextFormField(
             controller: _email,
@@ -73,14 +70,13 @@ class _SignUpFormState extends State<SignUpForm> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
-              labelText: tr('Email'),
-              labelStyle: const TextStyle(fontSize: 14),
+              labelText: 'Email',
+              labelStyle: TextStyle(fontSize: 14.sp),
               border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderRadius: BorderRadius.zero,
               ),
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  borderSide: BorderSide(color: AppColors.black, width: 1.5)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero, borderSide: BorderSide(color: AppColors.black, width: 1.5.w)),
             ),
           ),
           const SizedBox(
@@ -89,20 +85,27 @@ class _SignUpFormState extends State<SignUpForm> {
           TextFormField(
             controller: _password,
             cursorColor: AppColors.black,
-            obscureText: true,
+            obscureText: !_passwordVisible,
             decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                labelText: tr('Password'),
-                labelStyle: const TextStyle(fontSize: 14),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(color: AppColors.black, width: 1.5)),
-                suffixIcon: const IconButton(
-                    onPressed: null, icon: Icon(Icons.remove_red_eye_sharp))),
+              filled: true,
+              fillColor: Colors.white,
+              labelText: 'Password',
+              labelStyle: const TextStyle(fontSize: 14),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+              focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.zero, borderSide: BorderSide(color: AppColors.black, width: 1.5)),
+              suffixIcon: IconButton(
+                  color: AppColors.grey,
+                  splashRadius: 16,
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                  icon: Icon(!_passwordVisible ? Icons.visibility : Icons.visibility_off)),
+            ),
           ),
           Align(
             alignment: Alignment.centerRight,
@@ -112,16 +115,16 @@ class _SignUpFormState extends State<SignUpForm> {
                 context.read<AuthCubit>().showLogin();
               },
               child: SmallText(
-                text: tr('Already have an account?'),
-                size: getProportionateScreenWidth(14),
+                text: 'Already have an account?',
+                size: 12,
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: 10.h,
           ),
           ButtonIconText(
-            text: tr('SIGN UP'),
+            text: 'SIGN UP',
             onPressed: () async {
               final username = _username.text;
               final email = _email.text;

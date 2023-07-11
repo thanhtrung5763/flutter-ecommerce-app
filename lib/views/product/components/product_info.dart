@@ -1,9 +1,8 @@
-import 'package:final_project/colors.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/models/Product.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ProductInfo extends StatelessWidget {
   final Product product;
@@ -71,30 +70,30 @@ class ProductInfo extends StatelessWidget {
         const SizedBox(
           height: 8,
         ),
-        Row(
-          children: [
-            Wrap(
-              children: List.generate(
-                5,
-                (index) => Icon(
-                  Icons.star,
-                  color: AppColors.black,
-                  size: 14,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            SmallText(
-              text: '(10)',
-              color: AppColors.grey,
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 8,
-        ),
+        // Row(
+        //   children: [
+            // Wrap(
+            //   children: List.generate(
+            //     5,
+            //     (index) => Icon(
+            //       Icons.star,
+            //       color: AppColors.black,
+            //       size: 14,
+            //     ),
+            //   ),
+            // ),
+        //     const SizedBox(
+        //       width: 5,
+        //     ),
+        //     SmallText(
+        //       text: '(10)',
+        //       color: AppColors.grey,
+        //     )
+        //   ],
+        // ),
+        // const SizedBox(
+        //   height: 8,
+        // ),
         SmallText(
           text: '${product.description}',
           size: 14,

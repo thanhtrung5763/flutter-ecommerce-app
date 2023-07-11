@@ -13,12 +13,13 @@ class ConfirmationView extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: BlocProvider(
         create: (context) => AuthBloc(
           authRepo: context.read<AuthRepository>(),
           authCubit: context.read<AuthCubit>(),
         ),
-        child: Body(),
+        child: const Body(),
       ),
     );
   }

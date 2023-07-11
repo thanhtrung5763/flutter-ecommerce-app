@@ -1,5 +1,5 @@
-import 'package:final_project/colors.dart';
-import 'package:final_project/constants.dart';
+import 'package:final_project/utils/colors.dart';
+import 'package:final_project/utils/constants.dart';
 import 'package:final_project/size_config.dart';
 import 'package:final_project/widgets/button_icon.dart';
 import 'package:final_project/widgets/button_icon_text.dart';
@@ -89,11 +89,7 @@ class _TestViewState extends State<TestView> {
                         bottomRight: Radius.circular(2))),
               ),
               OutlinedButtonIconText(
-                  text: SmallText(
-                    text: 'OUTLINE',
-                    color: AppColors.black,
-                    size: 14,
-                  ),
+                  text: 'OUTLINE',
                   onPressed: () {}),
               Row(
                 children: [

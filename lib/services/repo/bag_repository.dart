@@ -12,7 +12,7 @@ class BagRepository {
 
       final user = response.data;
       return user;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
@@ -75,21 +75,16 @@ class BagRepository {
       // final response = await Amplify.API.query(request: request).response;
       final data = response.data;
       Map<String, dynamic> jsonData = json.decode(data!);
-      if ((jsonData[getBag]['items'] as List).length == 0) {
+      if ((jsonData[getBag]['items'] as List).isEmpty) {
         Bag bag = await createBag(u);
         return bag;
       } else {
-        List<dynamic> productsData =
-            jsonData[getBag]['items'][0]['BagProducts']['items'];
+        List<dynamic> productsData = jsonData[getBag]['items'][0]['BagProducts']['items'];
 
-        List<BagProduct> bagProducts =
-            List<BagProduct>.from(productsData.map((e) {
+        List<BagProduct> bagProducts = List<BagProduct>.from(productsData.map((e) {
           Product product = Product.fromJson(e['product']);
-          product =
-              product.copyWith(brand: Brand.fromJson(e['product']['brand']));
-          product = product.copyWith(
-              finercategory:
-                  FinerCategory.fromJson(e['product']['finercategory']));
+          product = product.copyWith(brand: Brand.fromJson(e['product']['brand']));
+          product = product.copyWith(finercategory: FinerCategory.fromJson(e['product']['finercategory']));
 
           BagProduct bagProduct = BagProduct.fromJson(e);
           bagProduct = bagProduct.copyWith(product: product);
@@ -99,7 +94,7 @@ class BagRepository {
         bag = bag.copyWith(BagProducts: bagProducts);
         return bag;
       }
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
@@ -110,25 +105,19 @@ class BagRepository {
       final request = ModelMutations.create(bag);
       final response = await Amplify.API.mutate(request: request).response;
       return bag;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
 
-  Future<BagProduct> createBagProduct(
-      Bag bag, Product product, String size) async {
+  Future<BagProduct> createBagProduct(Bag bag, Product product, String size) async {
     try {
-      BagProduct bagProduct = BagProduct(
-          bagID: bag.id,
-          productID: product.id,
-          product: product,
-          size: size,
-          quantity: 1,
-          isRated: false);
+      BagProduct bagProduct =
+          BagProduct(bagID: bag.id, productID: product.id, product: product, size: size, quantity: 1, isRated: false);
       final request = ModelMutations.create(bagProduct);
       final response = await Amplify.API.mutate(request: request).response;
       return bagProduct;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
@@ -137,7 +126,7 @@ class BagRepository {
     try {
       final request = ModelMutations.update(bagProduct);
       await Amplify.API.mutate(request: request).response;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
@@ -146,7 +135,7 @@ class BagRepository {
     try {
       final request = ModelMutations.deleteById(BagProduct.classType, id);
       await Amplify.API.mutate(request: request).response;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
@@ -155,7 +144,7 @@ class BagRepository {
     try {
       final request = ModelMutations.update(bag);
       await Amplify.API.mutate(request: request).response;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
@@ -226,14 +215,10 @@ class BagRepository {
         for (int i = 0; i < ordersData.length; i++) {
           List<dynamic> productsData = ordersData[i]['BagProducts']['items'];
 
-          List<BagProduct> bagProducts =
-              List<BagProduct>.from(productsData.map((e) {
+          List<BagProduct> bagProducts = List<BagProduct>.from(productsData.map((e) {
             Product product = Product.fromJson(e['product']);
-            product =
-                product.copyWith(brand: Brand.fromJson(e['product']['brand']));
-            product = product.copyWith(
-                finercategory:
-                    FinerCategory.fromJson(e['product']['finercategory']));
+            product = product.copyWith(brand: Brand.fromJson(e['product']['brand']));
+            product = product.copyWith(finercategory: FinerCategory.fromJson(e['product']['finercategory']));
 
             BagProduct bagProduct = BagProduct.fromJson(e);
             bagProduct = bagProduct.copyWith(product: product);
@@ -245,22 +230,18 @@ class BagRepository {
         }
       }
       return orders;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
 
-  Future<void> addReview(String bagID, String productID, String rating) async {
+  Future<void> addReview(String bagID, String productID, String rating, String content) async {
     try {
       final user = await Amplify.Auth.getCurrentUser();
-      Review review = Review(
-          bagID: bagID,
-          userID: user.userId,
-          productID: productID,
-          rating: rating);
+      Review review = Review(bagID: bagID, userID: user.userId, productID: productID, rating: rating, content: content);
       final request = ModelMutations.create(review);
       await Amplify.API.mutate(request: request).response;
-    } on ApiException catch (e) {
+    } on ApiException {
       rethrow;
     }
   }
