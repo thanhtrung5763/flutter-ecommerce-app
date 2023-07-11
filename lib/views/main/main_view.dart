@@ -1,7 +1,7 @@
 import 'package:badges/badges.dart' as badges;
-import 'package:final_project/routers/app_router.dart';
-import 'package:final_project/utils/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/models/BagProduct.dart';
+import 'package:final_project/routers/app_router.dart';
 import 'package:final_project/services/auth/auth_repository.dart';
 import 'package:final_project/services/auth/bloc/auth_bloc.dart';
 import 'package:final_project/services/auth/cubit/auth_cubit.dart';
@@ -9,6 +9,7 @@ import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
 import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
 import 'package:final_project/services/cloud/bloc/shipping_address/shipping_address_bloc.dart';
 import 'package:final_project/services/repo/shipping_address_repository.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/views/bag/bag_view.dart';
 import 'package:final_project/views/home/home_view.dart';
 import 'package:final_project/views/profile/profile_view.dart';
@@ -249,22 +250,22 @@ class _MainViewState extends State<MainView> {
 
   List<BottomNavigationBarItem> bottomNavItems(BagState state) {
     return [
-      const BottomNavigationBarItem(
-        label: 'Home',
-        icon: Padding(
+      BottomNavigationBarItem(
+        label: 'Home'.tr(),
+        icon: const Padding(
           padding: EdgeInsets.only(top: 4.0),
           child: Icon(Icons.apps),
         ),
       ),
-      const BottomNavigationBarItem(
-        label: 'Search',
-        icon: Padding(
+      BottomNavigationBarItem(
+        label: 'Search'.tr(),
+        icon: const Padding(
           padding: EdgeInsets.only(top: 4.0),
           child: Icon(Icons.manage_search_rounded),
         ),
       ),
       BottomNavigationBarItem(
-        label: 'Bag',
+        label: 'Bag'.tr(),
         icon: state is BagLoadedState && (state.bag.BagProducts != null && state.bag.BagProducts!.isNotEmpty)
             ? Padding(
                 padding: const EdgeInsets.only(top: 4.0),
@@ -279,16 +280,16 @@ class _MainViewState extends State<MainView> {
               )
             : const Icon(Icons.shopping_bag_outlined),
       ),
-      const BottomNavigationBarItem(
-        label: 'Save',
-        icon: Padding(
+      BottomNavigationBarItem(
+        label: 'Save'.tr(),
+        icon: const Padding(
           padding: EdgeInsets.only(top: 4.0),
           child: Icon(Icons.favorite_outline_rounded),
         ),
       ),
-      const BottomNavigationBarItem(
-        label: 'Person',
-        icon: Padding(
+      BottomNavigationBarItem(
+        label: 'Person'.tr(),
+        icon: const Padding(
           padding: EdgeInsets.only(top: 4.0),
           child: Icon(Icons.person_outline_rounded),
         ),

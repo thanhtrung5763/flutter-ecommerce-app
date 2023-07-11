@@ -1,8 +1,9 @@
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
+
 class AppQuery {
   const AppQuery._();
 
-  static const _productWithReviews = 
-    '''
+  static const _productWithReviews = '''
       title
       Reviews {
         items {
@@ -27,7 +28,7 @@ class AppQuery {
       originalPrice
       sizeOption
     ''';
-  // static String getSaleProducts = 
+  // static String getSaleProducts =
   //   '''
   //     query getSaleProducts {
   //       listProducts(filter: {discountOffer: {ne: ""}}, limit: 30) {
@@ -38,7 +39,7 @@ class AppQuery {
   //       }
   //     }
   //   ''';
-  // static String getNewProducts = 
+  // static String getNewProducts =
   //   '''
   //     query getNewProducts {
   //       listProducts(filter: {discountOffer: {eq: ""}}, limit: 10) {
@@ -48,7 +49,7 @@ class AppQuery {
   //         nextToken
   //       }
   //     }
-  //   ''';    
+  //   ''';
   static String getProductByID(String id) {
     return '''
       query getProductByID {
@@ -56,7 +57,7 @@ class AppQuery {
           $_productWithReviews
         }
       }
-    ''';   
+    ''';
   }
 
   static String getSaleProducts(String? nextToken) {
@@ -70,7 +71,7 @@ class AppQuery {
             nextToken
           }
         }
-      '''; 
+      ''';
     }
     return '''
       query getSaleProducts {
@@ -81,8 +82,9 @@ class AppQuery {
           nextToken
         }
       }
-    '''; 
+    ''';
   }
+
   static String getNewProducts(String? nextToken) {
     if (nextToken == null) {
       return '''
@@ -94,7 +96,7 @@ class AppQuery {
             nextToken
           }
         }
-      '''; 
+      ''';
     }
     return '''
       query getNewProducts {
@@ -105,6 +107,32 @@ class AppQuery {
           nextToken
         }
       }
-    '''; 
+    ''';
+  }
+
+  static String getProductsOfSearch(String text, String? nextToken) {
+    text = toBeginningOfSentenceCase(text.toLowerCase())!;
+    if (nextToken == null) {
+      return '''
+        query getProductsOfSearch {
+          listProducts(filter: {title: {contains: "$text"}}) {
+            items {
+              $_productWithReviews
+            }
+            nextToken
+          }
+        }
+      ''';
+    }
+    return '''
+      query getProductsOfSearch {
+        listProducts(filter: {title: {contains: "$text"}}, nextToken: "$nextToken") {
+          items {
+            $_productWithReviews
+          }
+          nextToken
+        }
+      }
+    ''';
   }
 }

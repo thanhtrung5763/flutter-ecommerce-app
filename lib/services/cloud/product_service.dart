@@ -373,24 +373,44 @@ class ProductService {
     }
   }
 
-  Future<Map<String, dynamic>> getProductsOfSearch(
-      GraphQLRequest<PaginatedResult<Product>>? request) async {
+  Future<Map<String, dynamic>> getProductsOfSearch(String text,
+      GraphQLRequest<PaginatedResult<Product>> request) async {
     try {
-      final products = [];
-      GraphQLResponse<PaginatedResult<Product>> response =
-          await Amplify.API.query(request: request!).response;
+      // final products = [];
+      // GraphQLResponse<PaginatedResult<Product>> response =
+      //     await Amplify.API.query(request: request!).response;
+      // GraphQLRequest<PaginatedResult<Product>>? requestForNextResult;
+      // for (int i = 0; i < 2; i++) {
+      //   if (response.data!.hasNextResult == true) {
+      //     final data = response.data;
+      //     products.addAll(response.data!.items);
+      //     requestForNextResult = response.data!.requestForNextResult!;
+      //     response = await Amplify.API
+      //         .query(request: response.data!.requestForNextResult!)
+      //         .response;
+      //   }
+      // }
+
+      // Map<String, dynamic> result = Map();
+      // result['0'] = requestForNextResult;
+      // result['1'] = products;
+      // return result;
+      const operation = 'listProducts';
+      var products = [];
+
+      GraphQLResponse<PaginatedResult<Product>> response = await Amplify.API.query(request: request).response;
       GraphQLRequest<PaginatedResult<Product>>? requestForNextResult;
       for (int i = 0; i < 2; i++) {
         if (response.data!.hasNextResult == true) {
-          final data = response.data;
           products.addAll(response.data!.items);
-          requestForNextResult = response.data!.requestForNextResult!;
-          response = await Amplify.API
-              .query(request: response.data!.requestForNextResult!)
-              .response;
+          requestForNextResult = GraphQLRequest<PaginatedResult<Product>>(
+              document: AppQuery.getProductsOfSearch(text, response.data!.nextToken!),
+              modelType: const PaginatedModelType(Product.classType),
+              decodePath: operation
+          );
+          response = await Amplify.API.query(request: requestForNextResult).response;
         }
       }
-
       Map<String, dynamic> result = Map();
       result['0'] = requestForNextResult;
       result['1'] = products;

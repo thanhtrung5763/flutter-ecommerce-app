@@ -1,7 +1,7 @@
 import 'package:final_project/routers/args/checkout_args.dart';
-import 'package:final_project/utils/colors.dart';
 import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
 import 'package:final_project/services/cloud/bloc/shipping_address/shipping_address_bloc.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/views/bag/components/bag_body.dart';
 import 'package:final_project/views/bag/components/bag_body_empty.dart';
 import 'package:final_project/widgets/big_text.dart';
@@ -37,7 +37,7 @@ class BagView extends StatelessWidget {
                       backgroundColor: AppColors.green,
                       text: 'CHECKOUT',
                       textSize: 12,
-                      width: 96,
+                      width: null,
                       onPressed: () {
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (_) => BlocProvider.value(

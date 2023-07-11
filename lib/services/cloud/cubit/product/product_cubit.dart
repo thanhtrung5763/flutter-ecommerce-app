@@ -221,19 +221,42 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   void getProductsOfSearch(String text) async {
+    // if (state is ProductLoaded == false) {
+    //   emit(ProductLoading());
+    //   text = text.toLowerCase();
+    //   QueryPredicateGroup predicate = (Product.TITLE.contains(text)).or(Product.TITLE.contains(toBeginningOfSentenceCase(text)!));
+    //   requestForNextResult =
+    //       ModelQueries.list(Product.classType, where: predicate);
+    // }
+    // try {
+    //   if (requestForNextResult == null) {
+    //     return;
+    //   }
+    //   final result =
+    //       await _productService.getProductsOfSearch(requestForNextResult!);
+    //   requestForNextResult = result['0'];
+    //   final currentProductList = result['1'];
+    //   products.addAll(List<Product>.from(currentProductList));
+    //   emit(ProductLoaded(products, products.length));
+    // } on Exception catch (e) {
+    //   emit(ProductError(e));
+    // }
     if (state is ProductLoaded == false) {
       emit(ProductLoading());
-      text = text.toLowerCase();
-      QueryPredicateGroup predicate = (Product.TITLE.contains(text)).or(Product.TITLE.contains(toBeginningOfSentenceCase(text)!));
+      const operation = 'listProducts';
       requestForNextResult =
-          ModelQueries.list(Product.classType, where: predicate);
+        GraphQLRequest<PaginatedResult<Product>>(
+          document: AppQuery.getProductsOfSearch(text, null),
+          modelType: const PaginatedModelType(Product.classType),
+          decodePath: operation
+      );
     }
     try {
       if (requestForNextResult == null) {
         return;
       }
       final result =
-          await _productService.getProductsOfSearch(requestForNextResult);
+          await _productService.getProductsOfSearch(text, requestForNextResult!);
       requestForNextResult = result['0'];
       final currentProductList = result['1'];
       products.addAll(List<Product>.from(currentProductList));
