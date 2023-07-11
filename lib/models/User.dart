@@ -36,6 +36,9 @@ class User extends Model {
   final String? _savedStorageID;
   final SavedStorage? _savedStorage;
   final List<Bag>? _Bags;
+  final List<ShippingAddress>? _shippingAddresses;
+  final String? _defaultShippingAddressID;
+  final String? _stripeCustomerID;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -89,6 +92,18 @@ class User extends Model {
     return _Bags;
   }
   
+  List<ShippingAddress>? get shippingAddresses {
+    return _shippingAddresses;
+  }
+  
+  String? get defaultShippingAddressID {
+    return _defaultShippingAddressID;
+  }
+  
+  String? get stripeCustomerID {
+    return _stripeCustomerID;
+  }
+  
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -97,9 +112,9 @@ class User extends Model {
     return _updatedAt;
   }
   
-  const User._internal({required this.id, required username, required email, avatar, savedStorageID, savedStorage, Bags, createdAt, updatedAt}): _username = username, _email = email, _avatar = avatar, _savedStorageID = savedStorageID, _savedStorage = savedStorage, _Bags = Bags, _createdAt = createdAt, _updatedAt = updatedAt;
+  const User._internal({required this.id, required username, required email, avatar, savedStorageID, savedStorage, Bags, shippingAddresses, defaultShippingAddressID, stripeCustomerID, createdAt, updatedAt}): _username = username, _email = email, _avatar = avatar, _savedStorageID = savedStorageID, _savedStorage = savedStorage, _Bags = Bags, _shippingAddresses = shippingAddresses, _defaultShippingAddressID = defaultShippingAddressID, _stripeCustomerID = stripeCustomerID, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory User({String? id, required String username, required String email, String? avatar, String? savedStorageID, SavedStorage? savedStorage, List<Bag>? Bags}) {
+  factory User({String? id, required String username, required String email, String? avatar, String? savedStorageID, SavedStorage? savedStorage, List<Bag>? Bags, List<ShippingAddress>? shippingAddresses, String? defaultShippingAddressID, String? stripeCustomerID}) {
     return User._internal(
       id: id == null ? UUID.getUUID() : id,
       username: username,
@@ -107,7 +122,10 @@ class User extends Model {
       avatar: avatar,
       savedStorageID: savedStorageID,
       savedStorage: savedStorage,
-      Bags: Bags != null ? List<Bag>.unmodifiable(Bags) : Bags);
+      Bags: Bags != null ? List<Bag>.unmodifiable(Bags) : Bags,
+      shippingAddresses: shippingAddresses != null ? List<ShippingAddress>.unmodifiable(shippingAddresses) : shippingAddresses,
+      defaultShippingAddressID: defaultShippingAddressID,
+      stripeCustomerID: stripeCustomerID);
   }
   
   bool equals(Object other) {
@@ -124,7 +142,10 @@ class User extends Model {
       _avatar == other._avatar &&
       _savedStorageID == other._savedStorageID &&
       _savedStorage == other._savedStorage &&
-      DeepCollectionEquality().equals(_Bags, other._Bags);
+      DeepCollectionEquality().equals(_Bags, other._Bags) &&
+      DeepCollectionEquality().equals(_shippingAddresses, other._shippingAddresses) &&
+      _defaultShippingAddressID == other._defaultShippingAddressID &&
+      _stripeCustomerID == other._stripeCustomerID;
   }
   
   @override
@@ -140,6 +161,8 @@ class User extends Model {
     buffer.write("email=" + "$_email" + ", ");
     buffer.write("avatar=" + "$_avatar" + ", ");
     buffer.write("savedStorageID=" + "$_savedStorageID" + ", ");
+    buffer.write("defaultShippingAddressID=" + "$_defaultShippingAddressID" + ", ");
+    buffer.write("stripeCustomerID=" + "$_stripeCustomerID" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -147,7 +170,7 @@ class User extends Model {
     return buffer.toString();
   }
   
-  User copyWith({String? id, String? username, String? email, String? avatar, String? savedStorageID, SavedStorage? savedStorage, List<Bag>? Bags}) {
+  User copyWith({String? id, String? username, String? email, String? avatar, String? savedStorageID, SavedStorage? savedStorage, List<Bag>? Bags, List<ShippingAddress>? shippingAddresses, String? defaultShippingAddressID, String? stripeCustomerID}) {
     return User._internal(
       id: id ?? this.id,
       username: username ?? this.username,
@@ -155,7 +178,10 @@ class User extends Model {
       avatar: avatar ?? this.avatar,
       savedStorageID: savedStorageID ?? this.savedStorageID,
       savedStorage: savedStorage ?? this.savedStorage,
-      Bags: Bags ?? this.Bags);
+      Bags: Bags ?? this.Bags,
+      shippingAddresses: shippingAddresses ?? this.shippingAddresses,
+      defaultShippingAddressID: defaultShippingAddressID ?? this.defaultShippingAddressID,
+      stripeCustomerID: stripeCustomerID ?? this.stripeCustomerID);
   }
   
   User.fromJson(Map<String, dynamic> json)  
@@ -173,15 +199,23 @@ class User extends Model {
           .map((e) => Bag.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
           .toList()
         : null,
+      _shippingAddresses = json['shippingAddresses'] is List
+        ? (json['shippingAddresses'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => ShippingAddress.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null,
+      _defaultShippingAddressID = json['defaultShippingAddressID'],
+      _stripeCustomerID = json['stripeCustomerID'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'username': _username, 'email': _email, 'avatar': _avatar, 'savedStorageID': _savedStorageID, 'savedStorage': _savedStorage?.toJson(), 'Bags': _Bags?.map((Bag? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'username': _username, 'email': _email, 'avatar': _avatar, 'savedStorageID': _savedStorageID, 'savedStorage': _savedStorage?.toJson(), 'Bags': _Bags?.map((Bag? e) => e?.toJson()).toList(), 'shippingAddresses': _shippingAddresses?.map((ShippingAddress? e) => e?.toJson()).toList(), 'defaultShippingAddressID': _defaultShippingAddressID, 'stripeCustomerID': _stripeCustomerID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'username': _username, 'email': _email, 'avatar': _avatar, 'savedStorageID': _savedStorageID, 'savedStorage': _savedStorage, 'Bags': _Bags, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'username': _username, 'email': _email, 'avatar': _avatar, 'savedStorageID': _savedStorageID, 'savedStorage': _savedStorage, 'Bags': _Bags, 'shippingAddresses': _shippingAddresses, 'defaultShippingAddressID': _defaultShippingAddressID, 'stripeCustomerID': _stripeCustomerID, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
@@ -195,6 +229,11 @@ class User extends Model {
   static final QueryField BAGS = QueryField(
     fieldName: "Bags",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Bag).toString()));
+  static final QueryField SHIPPINGADDRESSES = QueryField(
+    fieldName: "shippingAddresses",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (ShippingAddress).toString()));
+  static final QueryField DEFAULTSHIPPINGADDRESSID = QueryField(fieldName: "defaultShippingAddressID");
+  static final QueryField STRIPECUSTOMERID = QueryField(fieldName: "stripeCustomerID");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "User";
     modelSchemaDefinition.pluralName = "Users";
@@ -248,6 +287,25 @@ class User extends Model {
       isRequired: false,
       ofModelName: (Bag).toString(),
       associatedKey: Bag.USER
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+      key: User.SHIPPINGADDRESSES,
+      isRequired: false,
+      ofModelName: (ShippingAddress).toString(),
+      associatedKey: ShippingAddress.USERID
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: User.DEFAULTSHIPPINGADDRESSID,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: User.STRIPECUSTOMERID,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(

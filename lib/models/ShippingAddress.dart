@@ -23,16 +23,18 @@ import 'package:amplify_core/amplify_core.dart';
 import 'package:flutter/foundation.dart';
 
 
-/** This is an auto generated class representing the Review type in your schema. */
+/** This is an auto generated class representing the ShippingAddress type in your schema. */
 @immutable
-class Review extends Model {
-  static const classType = const _ReviewModelType();
+class ShippingAddress extends Model {
+  static const classType = const _ShippingAddressModelType();
   final String id;
-  final String? _bagID;
+  final String? _name;
+  final String? _phone;
+  final String? _province;
+  final String? _district;
+  final String? _ward;
+  final String? _street;
   final String? _userID;
-  final String? _productID;
-  final String? _rating;
-  final String? _content;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -44,17 +46,28 @@ class Review extends Model {
     return id;
   }
   
-  String get bagID {
-    try {
-      return _bagID!;
-    } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
+  String? get name {
+    return _name;
+  }
+  
+  String? get phone {
+    return _phone;
+  }
+  
+  String? get province {
+    return _province;
+  }
+  
+  String? get district {
+    return _district;
+  }
+  
+  String? get ward {
+    return _ward;
+  }
+  
+  String? get street {
+    return _street;
   }
   
   String get userID {
@@ -70,27 +83,6 @@ class Review extends Model {
     }
   }
   
-  String get productID {
-    try {
-      return _productID!;
-    } catch(e) {
-      throw new AmplifyCodeGenModelException(
-          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
-  }
-  
-  String? get rating {
-    return _rating;
-  }
-  
-  String? get content {
-    return _content;
-  }
-  
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -99,16 +91,18 @@ class Review extends Model {
     return _updatedAt;
   }
   
-  const Review._internal({required this.id, required bagID, required userID, required productID, rating, content, createdAt, updatedAt}): _bagID = bagID, _userID = userID, _productID = productID, _rating = rating, _content = content, _createdAt = createdAt, _updatedAt = updatedAt;
+  const ShippingAddress._internal({required this.id, name, phone, province, district, ward, street, required userID, createdAt, updatedAt}): _name = name, _phone = phone, _province = province, _district = district, _ward = ward, _street = street, _userID = userID, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Review({String? id, required String bagID, required String userID, required String productID, String? rating, String? content}) {
-    return Review._internal(
+  factory ShippingAddress({String? id, String? name, String? phone, String? province, String? district, String? ward, String? street, required String userID}) {
+    return ShippingAddress._internal(
       id: id == null ? UUID.getUUID() : id,
-      bagID: bagID,
-      userID: userID,
-      productID: productID,
-      rating: rating,
-      content: content);
+      name: name,
+      phone: phone,
+      province: province,
+      district: district,
+      ward: ward,
+      street: street,
+      userID: userID);
   }
   
   bool equals(Object other) {
@@ -118,13 +112,15 @@ class Review extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Review &&
+    return other is ShippingAddress &&
       id == other.id &&
-      _bagID == other._bagID &&
-      _userID == other._userID &&
-      _productID == other._productID &&
-      _rating == other._rating &&
-      _content == other._content;
+      _name == other._name &&
+      _phone == other._phone &&
+      _province == other._province &&
+      _district == other._district &&
+      _ward == other._ward &&
+      _street == other._street &&
+      _userID == other._userID;
   }
   
   @override
@@ -134,13 +130,15 @@ class Review extends Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("Review {");
+    buffer.write("ShippingAddress {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("bagID=" + "$_bagID" + ", ");
+    buffer.write("name=" + "$_name" + ", ");
+    buffer.write("phone=" + "$_phone" + ", ");
+    buffer.write("province=" + "$_province" + ", ");
+    buffer.write("district=" + "$_district" + ", ");
+    buffer.write("ward=" + "$_ward" + ", ");
+    buffer.write("street=" + "$_street" + ", ");
     buffer.write("userID=" + "$_userID" + ", ");
-    buffer.write("productID=" + "$_productID" + ", ");
-    buffer.write("rating=" + "$_rating" + ", ");
-    buffer.write("content=" + "$_content" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -148,43 +146,49 @@ class Review extends Model {
     return buffer.toString();
   }
   
-  Review copyWith({String? id, String? bagID, String? userID, String? productID, String? rating, String? content}) {
-    return Review._internal(
+  ShippingAddress copyWith({String? id, String? name, String? phone, String? province, String? district, String? ward, String? street, String? userID}) {
+    return ShippingAddress._internal(
       id: id ?? this.id,
-      bagID: bagID ?? this.bagID,
-      userID: userID ?? this.userID,
-      productID: productID ?? this.productID,
-      rating: rating ?? this.rating,
-      content: content ?? this.content);
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      province: province ?? this.province,
+      district: district ?? this.district,
+      ward: ward ?? this.ward,
+      street: street ?? this.street,
+      userID: userID ?? this.userID);
   }
   
-  Review.fromJson(Map<String, dynamic> json)  
+  ShippingAddress.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _bagID = json['bagID'],
+      _name = json['name'],
+      _phone = json['phone'],
+      _province = json['province'],
+      _district = json['district'],
+      _ward = json['ward'],
+      _street = json['street'],
       _userID = json['userID'],
-      _productID = json['productID'],
-      _rating = json['rating'],
-      _content = json['content'],
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'bagID': _bagID, 'userID': _userID, 'productID': _productID, 'rating': _rating, 'content': _content, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'phone': _phone, 'province': _province, 'district': _district, 'ward': _ward, 'street': _street, 'userID': _userID, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'bagID': _bagID, 'userID': _userID, 'productID': _productID, 'rating': _rating, 'content': _content, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'name': _name, 'phone': _phone, 'province': _province, 'district': _district, 'ward': _ward, 'street': _street, 'userID': _userID, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField BAGID = QueryField(fieldName: "bagID");
+  static final QueryField NAME = QueryField(fieldName: "name");
+  static final QueryField PHONE = QueryField(fieldName: "phone");
+  static final QueryField PROVINCE = QueryField(fieldName: "province");
+  static final QueryField DISTRICT = QueryField(fieldName: "district");
+  static final QueryField WARD = QueryField(fieldName: "ward");
+  static final QueryField STREET = QueryField(fieldName: "street");
   static final QueryField USERID = QueryField(fieldName: "userID");
-  static final QueryField PRODUCTID = QueryField(fieldName: "productID");
-  static final QueryField RATING = QueryField(fieldName: "rating");
-  static final QueryField CONTENT = QueryField(fieldName: "content");
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Review";
-    modelSchemaDefinition.pluralName = "Reviews";
+    modelSchemaDefinition.name = "ShippingAddress";
+    modelSchemaDefinition.pluralName = "ShippingAddresses";
     
     modelSchemaDefinition.authRules = [
       AuthRule(
@@ -198,40 +202,50 @@ class Review extends Model {
     ];
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const ["bagID"], name: "byBag"),
-      ModelIndex(fields: const ["userID"], name: "byUser"),
-      ModelIndex(fields: const ["productID"], name: "byProduct")
+      ModelIndex(fields: const ["userID"], name: "byUser")
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Review.BAGID,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Review.USERID,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Review.PRODUCTID,
-      isRequired: true,
-      ofType: ModelFieldType(ModelFieldTypeEnum.string)
-    ));
-    
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Review.RATING,
+      key: ShippingAddress.NAME,
       isRequired: false,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Review.CONTENT,
+      key: ShippingAddress.PHONE,
       isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ShippingAddress.PROVINCE,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ShippingAddress.DISTRICT,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ShippingAddress.WARD,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ShippingAddress.STREET,
+      isRequired: false,
+      ofType: ModelFieldType(ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+      key: ShippingAddress.USERID,
+      isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
     
@@ -251,11 +265,11 @@ class Review extends Model {
   });
 }
 
-class _ReviewModelType extends ModelType<Review> {
-  const _ReviewModelType();
+class _ShippingAddressModelType extends ModelType<ShippingAddress> {
+  const _ShippingAddressModelType();
   
   @override
-  Review fromJson(Map<String, dynamic> jsonData) {
-    return Review.fromJson(jsonData);
+  ShippingAddress fromJson(Map<String, dynamic> jsonData) {
+    return ShippingAddress.fromJson(jsonData);
   }
 }
