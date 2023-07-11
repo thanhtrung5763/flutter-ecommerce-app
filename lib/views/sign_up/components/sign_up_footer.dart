@@ -1,9 +1,7 @@
-import 'package:final_project/colors.dart';
-import 'package:final_project/widgets/outlined_button_icon_text.dart';
-import 'package:final_project/widgets/small_text.dart';
+import 'package:final_project/widgets/horizontal_or_line.dart';
+import 'package:final_project/widgets/logo_container.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpFooter extends StatelessWidget {
   const SignUpFooter({
@@ -14,31 +12,43 @@ class SignUpFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text('OR').tr(),
-        const SizedBox(
-          height: 20,
+        const HorizontalOrLine(label: 'OR', height: 36),
+        SizedBox(
+          height: 8.h,
         ),
-        OutlinedButtonIconText(
-          text: SmallText(
-            text: tr('Sign-up with Google'),
-            color: AppColors.black,
-            size: 14,
-          ),
-          icon: FontAwesomeIcons.google,
-          onPressed: () {},
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LogoContainer(
+                onTap: () {},
+                backgroundImage: Image.asset(
+                  'assets/icons/facebook.png',
+                ).image),
+            SizedBox(
+              width: 16.h,
+            ),
+            LogoContainer(
+                onTap: () {},
+                backgroundImage: Image.asset(
+                  'assets/icons/google.png',
+                ).image),
+          ],
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        OutlinedButtonIconText(
-          text: SmallText(
-            text: tr('Sign-up with Facebook'),
-            color: AppColors.black,
-            size: 14,
-          ),
-          icon: FontAwesomeIcons.facebook,
-          onPressed: () {},
-        ),
+        // OutlinedButtonIconText(
+        //   text: 'GOOGLE',
+        //   icon: FontAwesomeIcons.google,
+        //   height: AppSizes.kHeightLarge,
+        //   onPressed: () {},
+        // ),
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        // OutlinedButtonIconText(
+        //   text: 'FACEBOOK',
+        //   icon: FontAwesomeIcons.facebook,
+        //   height: AppSizes.kHeightLarge,
+        //   onPressed: () {},
+        // ),
       ],
     );
   }
