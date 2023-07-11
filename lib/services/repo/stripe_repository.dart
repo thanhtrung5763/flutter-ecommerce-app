@@ -1,8 +1,7 @@
 import 'dart:convert';
-
-import 'package:final_project/utils/constants.dart';
 import 'package:final_project/models/User.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class StripeRepository {
   // Future<List<Province>> getProvinces() async {
@@ -37,7 +36,7 @@ class StripeRepository {
 
   //     var response = await http.post(
   //       Uri.parse('https://api.stripe.com/v1/payment_intents'),
-  //       headers: {'Authorization': 'Bearer $SECRET_KEY', 'Content-Type': 'application/x-www-form-urlencoded'},
+  //       headers: {'Authorization': 'Bearer ${dotenv.env["STRIPE_SECRET_KEY"]}', 'Content-Type': 'application/x-www-form-urlencoded'},
   //       body: body,
   //     );
   //     // ignore: avoid_print
@@ -63,7 +62,7 @@ class StripeRepository {
 
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/customers'),
-        headers: {'Authorization': 'Bearer $SECRET_KEY', 'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: {'Authorization': 'Bearer ${dotenv.env["STRIPE_SECRET_KEY"]}', 'Content-Type': 'application/x-www-form-urlencoded'},
         body: body,
       );
       // ignore: avoid_print
@@ -88,7 +87,7 @@ class StripeRepository {
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/ephemeral_keys'),
         headers: {
-          'Authorization': 'Bearer $SECRET_KEY',
+          'Authorization': 'Bearer ${dotenv.env["STRIPE_SECRET_KEY"]}',
           'Content-Type': 'application/x-www-form-urlencoded',
           'Stripe-Version': '2022-08-01',
         },
@@ -118,7 +117,7 @@ class StripeRepository {
 
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
-        headers: {'Authorization': 'Bearer $SECRET_KEY', 'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: {'Authorization': 'Bearer ${dotenv.env["STRIPE_SECRET_KEY"]}', 'Content-Type': 'application/x-www-form-urlencoded'},
         body: body,
       );
       // ignore: avoid_print

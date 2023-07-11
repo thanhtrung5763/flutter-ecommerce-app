@@ -17,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 import 'amplifyconfiguration.dart';
@@ -25,7 +26,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =
       'pk_test_51Lo1WDBGUwo1aZecZlLI32SNefJVQDYCU2y5C20qgWrcC7GGwSTxWEG0NKo3IvNRWf8kNzQWoKqub5ZQPiwxUzeY00pUw3kMpI';
-
+  await dotenv.load(fileName: ".env");
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
