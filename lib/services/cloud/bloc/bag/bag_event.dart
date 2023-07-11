@@ -53,8 +53,9 @@ class BagListOrdersEvent extends BagEvent {}
 class BagOrderAddReviewEvent extends BagEvent {
   final BagProduct bagProduct;
   final String rating;
+  final String content;
 
-  BagOrderAddReviewEvent({required this.bagProduct, required this.rating}); 
+  BagOrderAddReviewEvent({required this.bagProduct, required this.rating, required this.content}); 
 }
 
 
