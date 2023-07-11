@@ -1,37 +1,107 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:final_project/models/ModelProvider.dart';
+import 'package:final_project/utils/queries.dart';
 
 class ProductService {
-  Future<List<Product>> getSaleProducts() async {
-    final request = ModelQueries.list(Product.classType,
-        limit: 30, where: (Product.DISCOUNTOFFER.ne('')));
-    final response = await Amplify.API.query(request: request).response;
+  Future<Map<String, dynamic>> getSaleProducts(GraphQLRequest<PaginatedResult<Product>> request) async {
+    // final request = ModelQueries.list(Product.classType,
+    //     limit: 30, where: (Product.DISCOUNTOFFER.ne('')));
+    // final response = await Amplify.API.query(request: request).response;
 
-    final products = response.data?.items;
-    if (products == null) {
-      print('errors: ${response.errors}');
-      return [];
+    // final products = response.data?.items;
+    // if (products == null) {
+    //   print('errors: ${response.errors}');
+    //   return [];
+    // }
+    // return products.whereType<Product>().toList();
+
+    const operation = 'listProducts';
+    var products = [];
+    // final request = GraphQLRequest<PaginatedResult<Product>>(
+    //         document: AppQuery.getSaleProducts,
+    //         modelType: const PaginatedModelType(Product.classType),
+    //         decodePath: operation
+    // );
+    GraphQLResponse<PaginatedResult<Product>> response = await Amplify.API.query(request: request).response;
+    GraphQLRequest<PaginatedResult<Product>>? requestForNextResult;
+    for (int i = 0; i < 2; i++) {
+      if (response.data!.hasNextResult == true) {
+        products.addAll(response.data!.items);
+        requestForNextResult = GraphQLRequest<PaginatedResult<Product>>(
+            document: AppQuery.getSaleProducts(response.data!.nextToken!),
+            modelType: const PaginatedModelType(Product.classType),
+            decodePath: operation
+        );
+        response = await Amplify.API.query(request: requestForNextResult).response;
+      }
     }
-    return products.whereType<Product>().toList();
+    Map<String, dynamic> result = Map();
+    result['0'] = requestForNextResult;
+    result['1'] = products;
+    return result;
+    // final data = response.data;
+    // Map<String, dynamic> jsonData = json.decode(data!);
+    // dynamic productsData =jsonData[operation]['items'];
+    // List<Product> products = List<Product>.from(productsData.map((e) {
+    //       Product product = Product.fromJson(e);
+    //       product =
+    //           product.copyWith(brand: Brand.fromJson(e['brand']));
+    //       product = product.copyWith(
+    //           finercategory:
+    //               FinerCategory.fromJson(e['finercategory']));
+    //       List<Review> reviews = List<Review>.from(e['Reviews']['items'].map((r) => Review.fromJson(r)));
+    //       product = product.copyWith(
+    //           Reviews: reviews);
+    //       return product;
+    //     }));
+    // return products;
+
+    // List<Product> products = [];
+    // if (data != null) {
+    //   products = data.items.whereType<Product>().toList();
+    // }
+    // return products;
   }
 
-  Future<List<Product>> getNewProducts() async {
-    final request = ModelQueries.list(
-      Product.classType,
-      limit: 10,
-      where: (Product.DISCOUNTOFFER.eq('')),
-    );
-    final response = await Amplify.API.query(request: request).response;
+  Future<Map<String, dynamic>> getNewProducts(GraphQLRequest<PaginatedResult<Product>> request) async {
+    // final request = ModelQueries.list(
+    //   Product.classType,
+    //   limit: 10,
+    //   where: (Product.DISCOUNTOFFER.eq('')),
+    // );
+    // final response = await Amplify.API.query(request: request).response;
 
-    final products = response.data?.items;
-    if (products == null) {
-      print('errors: ${response.errors}');
-      return [];
+    // final products = response.data?.items;
+    // if (products == null) {
+    //   print('errors: ${response.errors}');
+    //   return [];
+    // }
+    // return products.whereType<Product>().toList();
+
+    const operation = 'listProducts';
+    var products = [];
+
+    GraphQLResponse<PaginatedResult<Product>> response = await Amplify.API.query(request: request).response;
+    GraphQLRequest<PaginatedResult<Product>>? requestForNextResult;
+    for (int i = 0; i < 2; i++) {
+      if (response.data!.hasNextResult == true) {
+        products.addAll(response.data!.items);
+        requestForNextResult = GraphQLRequest<PaginatedResult<Product>>(
+            document: AppQuery.getNewProducts(response.data!.nextToken!),
+            modelType: const PaginatedModelType(Product.classType),
+            decodePath: operation
+        );
+        response = await Amplify.API.query(request: requestForNextResult).response;
+      }
     }
-    return products.whereType<Product>().toList();
+    Map<String, dynamic> result = Map();
+    result['0'] = requestForNextResult;
+    result['1'] = products;
+    return result;
   }
 
 /* THIS IS FOR GET RECOMMEND PRODUCT FROM API GATEWAY
@@ -54,11 +124,30 @@ class ProductService {
   }
   */
   Future<Product?> getProductByID(String id) async {
-    final request = ModelQueries.get(Product.classType, id);
+    // final request = ModelQueries.get(Product.classType, id);
+    // final response = await Amplify.API.query(request: request).response;
+
+    // final product = response.data;
+
+    // return product;
+
+    const operation = 'getProduct';
+    final request = GraphQLRequest<String>(
+            document: AppQuery.getProductByID(id),
+    );
     final response = await Amplify.API.query(request: request).response;
-
-    final product = response.data;
-
+    final data = response.data;
+    Map<String, dynamic> jsonData = json.decode(data!);
+    dynamic productData =jsonData[operation];
+    Product product = Product.fromJson(productData);
+    product =
+        product.copyWith(brand: Brand.fromJson(productData['brand']));
+    product = product.copyWith(
+        finercategory:
+            FinerCategory.fromJson(productData['finercategory']));
+    List<Review> reviews = List<Review>.from(productData['Reviews']['items'].map((r) => Review.fromJson(r)));
+    product = product.copyWith(
+        Reviews: reviews);
     return product;
   }
 
@@ -219,6 +308,33 @@ class ProductService {
   }
 
   Future<Map<String, dynamic>> getProductsOfFiner(
+      GraphQLRequest<PaginatedResult<Product>>? request) async {
+    try {
+      final products = [];
+      GraphQLResponse<PaginatedResult<Product>> response =
+          await Amplify.API.query(request: request!).response;
+      GraphQLRequest<PaginatedResult<Product>>? requestForNextResult;
+      for (int i = 0; i < 2; i++) {
+        if (response.data!.hasNextResult == true) {
+          final data = response.data;
+          products.addAll(response.data!.items);
+          requestForNextResult = response.data!.requestForNextResult!;
+          response = await Amplify.API
+              .query(request: response.data!.requestForNextResult!)
+              .response;
+        }
+      }
+
+      Map<String, dynamic> result = Map();
+      result['0'] = requestForNextResult;
+      result['1'] = products;
+      return result;
+    } on ApiException catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getProductsOfBrand(
       GraphQLRequest<PaginatedResult<Product>>? request) async {
     try {
       final products = [];

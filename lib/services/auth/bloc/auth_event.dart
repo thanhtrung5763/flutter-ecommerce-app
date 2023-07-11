@@ -31,5 +31,9 @@ class AuthEventConfirmSignUp extends AuthEvent {
   const AuthEventConfirmSignUp(this.confirmationCode);
 }
 
+class AuthEventResendSignUpCode extends AuthEvent {
+  const AuthEventResendSignUpCode();
+}
+
 
 

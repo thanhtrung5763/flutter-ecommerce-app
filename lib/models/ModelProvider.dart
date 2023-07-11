@@ -31,6 +31,7 @@ import 'Product.dart';
 import 'Review.dart';
 import 'SavedStorage.dart';
 import 'SavedStorageProduct.dart';
+import 'ShippingAddress.dart';
 import 'User.dart';
 
 export 'Bag.dart';
@@ -46,13 +47,14 @@ export 'Product.dart';
 export 'Review.dart';
 export 'SavedStorage.dart';
 export 'SavedStorageProduct.dart';
+export 'ShippingAddress.dart';
 export 'User.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "b884046c05cfc7f3dbbf93270ad75fe5";
+  String version = "6afab5e42245954c8cb36e6656f4b832";
   @override
-  List<ModelSchema> modelSchemas = [Bag.schema, BagProduct.schema, Brand.schema, BroadCategory.schema, ContentBased.schema, FinerCategory.schema, ModelBased.schema, Product.schema, Review.schema, SavedStorage.schema, SavedStorageProduct.schema, User.schema];
+  List<ModelSchema> modelSchemas = [Bag.schema, BagProduct.schema, Brand.schema, BroadCategory.schema, ContentBased.schema, FinerCategory.schema, ModelBased.schema, Product.schema, Review.schema, SavedStorage.schema, SavedStorageProduct.schema, ShippingAddress.schema, User.schema];
   static final ModelProvider _instance = ModelProvider();
   @override
   List<ModelSchema> customTypeSchemas = [];
@@ -83,6 +85,8 @@ class ModelProvider implements ModelProviderInterface {
         return SavedStorage.classType;
       case "SavedStorageProduct":
         return SavedStorageProduct.classType;
+      case "ShippingAddress":
+        return ShippingAddress.classType;
       case "User":
         return User.classType;
       default:

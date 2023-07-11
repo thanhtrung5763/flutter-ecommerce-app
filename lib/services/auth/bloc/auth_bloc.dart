@@ -44,8 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
     on<AuthEventConfirmSignUp>((event, emit) async {
-      emit(
-          AuthStateConfirmSignUp(username: null, formStatus: FormSubmitting()));
+      emit(AuthStateConfirmSignUp(username: null, formStatus: FormSubmitting()));
       final confirmationCode = event.confirmationCode;
       final credentials = authCubit.credentials;
       if (credentials != null) {
@@ -61,8 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             ),
           );
           // await authRepo.signOut();
-          final userId = await authRepo.logIn(
-              username: credentials.username, password: credentials.password);
+          final userId = await authRepo.logIn(username: credentials.username, password: credentials.password);
           credentials.userId = userId;
           authCubit.launchSession(credentials);
         } on Exception catch (e) {
@@ -82,8 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         final username = event.username;
         final password = event.password;
-        final userId =
-            await authRepo.logIn(username: username, password: password);
+        final userId = await authRepo.logIn(username: username, password: password);
         emit(
           AuthStateLogIn(
             username: username,
@@ -91,8 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             formStatus: SubmissionSuccess(),
           ),
         );
-        authCubit.launchSession(
-            AuthCredentials(username: username, password: password));
+        authCubit.launchSession(AuthCredentials(username: username, password: password));
       } on Exception catch (e) {
         emit(AuthStateLogIn(formStatus: SubmissionFailed(e)));
       }
@@ -110,6 +106,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         authCubit.showLogin();
       } on Exception catch (e) {
         emit(AuthStateSignOut(formStatus: SubmissionFailed(e)));
+      }
+    });
+    on<AuthEventResendSignUpCode>((event, emit) async {
+      final credentials = authCubit.credentials;
+      if (credentials != null) {
+        try {
+          await authRepo.resendSignUpCode(
+            username: credentials.username,
+          );
+        } on Exception catch (e) {
+          emit(AuthStateSignOut(formStatus: SubmissionFailed(e)));
+        }
       }
     });
   }

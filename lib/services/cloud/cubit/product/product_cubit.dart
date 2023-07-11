@@ -4,6 +4,7 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:bloc/bloc.dart';
 import 'package:final_project/models/ModelProvider.dart';
+import 'package:final_project/utils/queries.dart';
 import 'package:final_project/services/cloud/product_service.dart';
 import 'package:meta/meta.dart';
 
@@ -16,12 +17,29 @@ class ProductCubit extends Cubit<ProductState> {
   List<Product> products = [];
   int length = 0;
   GraphQLRequest<PaginatedResult<Product>>? requestForNextResult;
+  String? nextToken;
   ProductCubit() : super(ProductInitial());
 
   void getSaleProducts() async {
-    emit(ProductLoading());
+    if (state is ProductLoaded == false) {
+      emit(ProductLoading());
+      const operation = 'listProducts';
+      requestForNextResult =
+        GraphQLRequest<PaginatedResult<Product>>(
+          document: AppQuery.getSaleProducts(null),
+          modelType: const PaginatedModelType(Product.classType),
+          decodePath: operation
+      );
+    }
     try {
-      final products = await _productService.getSaleProducts();
+      if (requestForNextResult == null) {
+        return;
+      }
+      final result =
+          await _productService.getSaleProducts(requestForNextResult!);
+      requestForNextResult = result['0'];
+      final currentProductList = result['1'];
+      products.addAll(List<Product>.from(currentProductList));
       emit(ProductLoaded(products, products.length));
     } on Exception catch (e) {
       emit(ProductError(e));
@@ -29,9 +47,32 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   void getNewProducts() async {
-    emit(ProductLoading());
+    // emit(ProductLoading());
+    // try {
+    //   final products = await _productService.getNewProducts();
+    //   emit(ProductLoaded(products, products.length));
+    // } on Exception catch (e) {
+    //   emit(ProductError(e));
+    // }
+    if (state is ProductLoaded == false) {
+      emit(ProductLoading());
+      const operation = 'listProducts';
+      requestForNextResult =
+        GraphQLRequest<PaginatedResult<Product>>(
+          document: AppQuery.getNewProducts(null),
+          modelType: const PaginatedModelType(Product.classType),
+          decodePath: operation
+      );
+    }
     try {
-      final products = await _productService.getNewProducts();
+      if (requestForNextResult == null) {
+        return;
+      }
+      final result =
+          await _productService.getNewProducts(requestForNextResult!);
+      requestForNextResult = result['0'];
+      final currentProductList = result['1'];
+      products.addAll(List<Product>.from(currentProductList));
       emit(ProductLoaded(products, products.length));
     } on Exception catch (e) {
       emit(ProductError(e));
@@ -147,6 +188,28 @@ class ProductCubit extends Cubit<ProductState> {
       }
       final result =
           await _productService.getProductsOfFiner(requestForNextResult);
+      requestForNextResult = result['0'];
+      final currentProductList = result['1'];
+      products.addAll(List<Product>.from(currentProductList));
+      emit(ProductLoaded(products, products.length));
+    } on Exception catch (e) {
+      emit(ProductError(e));
+    }
+  }
+
+  void getProductsOfBrand(Brand brand) async {
+    if (state is ProductLoaded == false) {
+      emit(ProductLoading());
+      QueryPredicate predicate = (Product.BRAND.eq(brand.id));
+      requestForNextResult =
+          ModelQueries.list(Product.classType, where: predicate);
+    }
+    try {
+      if (requestForNextResult == null) {
+        return;
+      }
+      final result =
+          await _productService.getProductsOfBrand(requestForNextResult);
       requestForNextResult = result['0'];
       final currentProductList = result['1'];
       products.addAll(List<Product>.from(currentProductList));

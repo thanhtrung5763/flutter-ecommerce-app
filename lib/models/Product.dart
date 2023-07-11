@@ -21,6 +21,7 @@
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 
@@ -38,6 +39,7 @@ class Product extends Model {
   final String? _sizeOption;
   final Brand? _brand;
   final FinerCategory? _finercategory;
+  final List<Review>? _Reviews;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
@@ -85,6 +87,10 @@ class Product extends Model {
     return _finercategory;
   }
   
+  List<Review>? get Reviews {
+    return _Reviews;
+  }
+  
   TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -93,9 +99,9 @@ class Product extends Model {
     return _updatedAt;
   }
   
-  const Product._internal({required this.id, title, images, description, discountPrice, originalPrice, discountOffer, sizeOption, brand, finercategory, createdAt, updatedAt}): _title = title, _images = images, _description = description, _discountPrice = discountPrice, _originalPrice = originalPrice, _discountOffer = discountOffer, _sizeOption = sizeOption, _brand = brand, _finercategory = finercategory, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Product._internal({required this.id, title, images, description, discountPrice, originalPrice, discountOffer, sizeOption, brand, finercategory, Reviews, createdAt, updatedAt}): _title = title, _images = images, _description = description, _discountPrice = discountPrice, _originalPrice = originalPrice, _discountOffer = discountOffer, _sizeOption = sizeOption, _brand = brand, _finercategory = finercategory, _Reviews = Reviews, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Product({String? id, String? title, String? images, String? description, String? discountPrice, String? originalPrice, String? discountOffer, String? sizeOption, Brand? brand, FinerCategory? finercategory}) {
+  factory Product({String? id, String? title, String? images, String? description, String? discountPrice, String? originalPrice, String? discountOffer, String? sizeOption, Brand? brand, FinerCategory? finercategory, List<Review>? Reviews}) {
     return Product._internal(
       id: id == null ? UUID.getUUID() : id,
       title: title,
@@ -106,7 +112,8 @@ class Product extends Model {
       discountOffer: discountOffer,
       sizeOption: sizeOption,
       brand: brand,
-      finercategory: finercategory);
+      finercategory: finercategory,
+      Reviews: Reviews != null ? List<Review>.unmodifiable(Reviews) : Reviews);
   }
   
   bool equals(Object other) {
@@ -126,7 +133,8 @@ class Product extends Model {
       _discountOffer == other._discountOffer &&
       _sizeOption == other._sizeOption &&
       _brand == other._brand &&
-      _finercategory == other._finercategory;
+      _finercategory == other._finercategory &&
+      DeepCollectionEquality().equals(_Reviews, other._Reviews);
   }
   
   @override
@@ -154,7 +162,7 @@ class Product extends Model {
     return buffer.toString();
   }
   
-  Product copyWith({String? id, String? title, String? images, String? description, String? discountPrice, String? originalPrice, String? discountOffer, String? sizeOption, Brand? brand, FinerCategory? finercategory}) {
+  Product copyWith({String? id, String? title, String? images, String? description, String? discountPrice, String? originalPrice, String? discountOffer, String? sizeOption, Brand? brand, FinerCategory? finercategory, List<Review>? Reviews}) {
     return Product._internal(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -165,7 +173,8 @@ class Product extends Model {
       discountOffer: discountOffer ?? this.discountOffer,
       sizeOption: sizeOption ?? this.sizeOption,
       brand: brand ?? this.brand,
-      finercategory: finercategory ?? this.finercategory);
+      finercategory: finercategory ?? this.finercategory,
+      Reviews: Reviews ?? this.Reviews);
   }
   
   Product.fromJson(Map<String, dynamic> json)  
@@ -183,15 +192,21 @@ class Product extends Model {
       _finercategory = json['finercategory']?['serializedData'] != null
         ? FinerCategory.fromJson(new Map<String, dynamic>.from(json['finercategory']['serializedData']))
         : null,
+      _Reviews = json['Reviews'] is List
+        ? (json['Reviews'] as List)
+          .where((e) => e?['serializedData'] != null)
+          .map((e) => Review.fromJson(new Map<String, dynamic>.from(e['serializedData'])))
+          .toList()
+        : null,
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'title': _title, 'images': _images, 'description': _description, 'discountPrice': _discountPrice, 'originalPrice': _originalPrice, 'discountOffer': _discountOffer, 'sizeOption': _sizeOption, 'brand': _brand?.toJson(), 'finercategory': _finercategory?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'title': _title, 'images': _images, 'description': _description, 'discountPrice': _discountPrice, 'originalPrice': _originalPrice, 'discountOffer': _discountOffer, 'sizeOption': _sizeOption, 'brand': _brand?.toJson(), 'finercategory': _finercategory?.toJson(), 'Reviews': _Reviews?.map((Review? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'title': _title, 'images': _images, 'description': _description, 'discountPrice': _discountPrice, 'originalPrice': _originalPrice, 'discountOffer': _discountOffer, 'sizeOption': _sizeOption, 'brand': _brand, 'finercategory': _finercategory, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'title': _title, 'images': _images, 'description': _description, 'discountPrice': _discountPrice, 'originalPrice': _originalPrice, 'discountOffer': _discountOffer, 'sizeOption': _sizeOption, 'brand': _brand, 'finercategory': _finercategory, 'Reviews': _Reviews, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
@@ -208,6 +223,9 @@ class Product extends Model {
   static final QueryField FINERCATEGORY = QueryField(
     fieldName: "finercategory",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (FinerCategory).toString()));
+  static final QueryField REVIEWS = QueryField(
+    fieldName: "Reviews",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Review).toString()));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "Product";
     modelSchemaDefinition.pluralName = "Products";
@@ -284,6 +302,13 @@ class Product extends Model {
       isRequired: false,
       targetName: "finercategoryID",
       ofModelName: (FinerCategory).toString()
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+      key: Product.REVIEWS,
+      isRequired: false,
+      ofModelName: (Review).toString(),
+      associatedKey: Review.PRODUCTID
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
