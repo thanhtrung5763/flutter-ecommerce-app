@@ -1,49 +1,49 @@
-import 'package:final_project/colors.dart';
-import 'package:final_project/size_config.dart';
+import 'package:final_project/utils/colors.dart';
+import 'package:final_project/utils/sizes.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ButtonIconText extends StatelessWidget {
   IconData? icon;
   final String text;
-  final VoidCallback onPressed;
+  VoidCallback? onPressed;
 
-  OutlinedBorder? shape;
+  OutlinedBorder shape;
   Color backgroundColor;
   double iconSize;
   double textSize;
-  double width;
+  double? width;
   double height;
-  ButtonIconText(
-      {super.key,
-      this.icon,
-      this.iconSize = 13,
-      this.textSize = 14,
-      this.width = 343,
-      this.height = 48,
-      this.shape,
-      this.backgroundColor = AppColors.redPrimary,
-      required this.text,
-      required this.onPressed});
+  ButtonIconText({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.icon,
+    this.iconSize = 13,
+    this.textSize = AppSizes.kTextSizeMedium,
+    this.width = 343,
+    this.height = AppSizes.kHeightMedium,
+    this.shape = const RoundedRectangleBorder(),
+    this.backgroundColor = AppColors.black,
+  });
 
   @override
   Widget build(BuildContext context) {
     return icon != null
         ? SizedBox(
-            width: width == 343 ? getProportionateScreenWidth(width) : width,
-            height:
-                height == 48 ? getProportionateScreenHeight(height) : height,
+            width: width?.w,
+            height: height.h,
             child: ElevatedButton.icon(
               onPressed: onPressed,
               label: BigText(
                 text: text,
                 color: AppColors.white,
-                size: getProportionateScreenWidth(textSize),
+                size: textSize.h,
               ),
               icon: Icon(
                 icon,
-                size: getProportionateScreenWidth(iconSize),
+                size: textSize.h,
               ),
               // style: ButtonStyle(
               //   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -55,14 +55,12 @@ class ButtonIconText extends StatelessWidget {
               //   backgroundColor:
               //       MaterialStateProperty.all<Color>(AppColors.redPrimary),
               // ),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: backgroundColor, shape: shape),
+              style: ElevatedButton.styleFrom(backgroundColor: backgroundColor, shape: shape),
             ),
           )
         : SizedBox(
-            width: width == 343 ? getProportionateScreenWidth(width) : width,
-            height:
-                height == 48 ? getProportionateScreenHeight(height) : height,
+            width: width?.w,
+            height: height.h,
             child: ElevatedButton(
               onPressed: onPressed,
               // style: ButtonStyle(
@@ -76,13 +74,16 @@ class ButtonIconText extends StatelessWidget {
               //     backgroundColor:
               //         MaterialStateProperty.all<Color>(AppColors.redPrimary)),
               style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  disabledBackgroundColor: AppColors.grey04,
+                  disabledForegroundColor: Colors.white,
                   backgroundColor: backgroundColor,
-                  padding: EdgeInsets.symmetric(vertical: 7, horizontal: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
                   shape: shape),
               child: BigText(
                 text: text,
                 color: AppColors.white,
-                size: getProportionateScreenWidth(textSize),
+                size: textSize.h,
               ),
             ),
           );
