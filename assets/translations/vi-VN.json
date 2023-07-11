@@ -10,7 +10,6 @@
     "Notifications": "Thông báo",
     "Promocodes": "Mã khuyến mãi",
     "Language": "Ngôn ngữ",
-        
     "Login": "Đăng nhập",
     "OR": "HOẶC",
     "Sign-in with Google": "Đăng nhập với Google",
@@ -21,18 +20,15 @@
     "Password": "Mật Khẩu",
     "Forgot password?": "Quên mật khẩu?",
     "LOGIN": "ĐĂNG NHẬP",
-
     "Sign up": "Đăng kí",
     "Sign-up with Google": "Đăng kí với Google",
     "Sign-up with Facebook": "Đăng kí với Facebook",
     "Email": "Email",
     "Already have an account?": "Đã có tài khoản?",
     "SIGN UP": "ĐĂNG KÍ",
-
     "Confirmation": "Xác thực",
     "Confirmation Code": "Nhập Mã Xác Thực",
     "SUBMIT": "XÁC THỰC",
-
     "New": "Mới",
     "You've never seen this before": "Sản phẩm có thể bạn chưa thấy",
     "Recommended": "Có thể bạn sẽ thích",
@@ -44,15 +40,12 @@
     "Saved Item": "Đã Thích",
     "Removed Item": "Đã Bỏ Thích",
     "View all": "Xem tất cả",
-
     "WOMEN": "NỮ",
     "MEN": "NAM",
-
     "VIEW ALL ITEMS": "XEM TẤT CẢ",
     "Choose category": "Chọn loại sản phẩm",
     "SIMILAR ITEMS": "SẢN PHẨM TƯƠNG TỰ",
     "items found": "kết quả",
-    
     "SAVED ITEMS": "DANH SÁCH YÊU THÍCH",
     "Recently added": "Đã thêm gần đây",
     "Deleted Item": "Đã Xoá",
@@ -64,18 +57,15 @@
     "Please select size": "Xin lựa chọn kích thước",
     "It's in the bag": "Đã bỏ vào giỏ",
     "items": "sản phẩm",
-
     "BAG": "GIỎ HÀNG",
     "CHECKOUT": "THANH TOÁN",
     "items: Total (excluding delivery) ": "sản phẩm: Tổng tiền (chưa gồm phí ship) ",
     "YOUR BAG IS EMPTY": "GIỎ HÀNG TRỐNG D:",
     "VIEW SAVED ITEMS": "XEM DANH SÁCH YÊU THÍCH",
     "CONTINUE SHOPPING": "TIẾP TỤC MUA SẮM",
-
     "ADD TO BAG": "THÊM VÀO GIỎ",
     "You might also like": "Có thể bạn thích",
     "stars": "sao",
-
     "MY ORDERS": "ĐƠN HÀNG CỦA TÔI",
     "Order": "Đơn số",
     "Total Amount": "Tổng tiền",
@@ -84,5 +74,10 @@
     "Review": "Đánh giá",
     "Processing": "Đang Xử Lí",
     "Approved": "Hoàn Thành",
-    "Rejected": "Từ Chối"
+    "Rejected": "Từ Chối",
+    "Home": "Trang chủ",
+    "Search": "Khám phá",
+    "Bag": "Giỏ",
+    "Save": "Yêu thích",
+    "Person": "Tài khoản"
 }

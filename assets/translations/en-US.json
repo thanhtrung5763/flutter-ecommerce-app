@@ -10,7 +10,6 @@
     "Notifications": "Notifications",
     "Promocodes": "Promocodes",
     "Language": "Language",
-
     "Login": "Login",
     "OR": "OR",
     "Sign-in with Google": "Sign-in with Google",
@@ -21,17 +20,14 @@
     "Password": "Password",
     "Forgot password?": "Forgot password?",
     "LOGIN": "LOGIN",
-
     "Sign-up with Google": "Sign-up with Google",
     "Sign-up with Facebook": "Sign-up with Facebook",
     "Email": "Email",
     "Already have an account?": "Already have an account?",
     "SIGN UP": "SIGN UP",
-
     "Confirmation": "Confirmation",
     "Confirmation Code": "Confirmation Code",
     "SUBMIT": "SUBMIT",
-
     "New": "New",
     "You've never seen this before": "You've never seen this before",
     "Recommended": "Recommended",
@@ -43,15 +39,12 @@
     "Saved Item": "Saved Item",
     "Removed Item": "Removed Item",
     "View all": "View all",
-
     "WOMEN": "WOMEN",
     "MEN": "MEN",
-
     "VIEW ALL ITEMS": "VIEW ALL ITEMS",
     "Choose category": "Choose category",
     "SIMILAR ITEMS": "SIMILAR ITEMS",
     "items found": "items found",
-
     "SAVED ITEMS": "SAVED ITEMS",
     "Recently added": "Recently added",
     "Deleted Item": "Deleted Item",
@@ -63,18 +56,15 @@
     "Please select size": "Please select size",
     "It's in the bag": "It's in the bag",
     "items": "items",
-
     "BAG": "BAG",
     "CHECKOUT": "CHECKOUT",
     "items: Total (excluding delivery) ": "items: Total (excluding delivery) ",
     "YOUR BAG IS EMPTY": "YOUR BAG IS EMPTY",
     "VIEW SAVED ITEMS": "VIEW SAVED ITEMS",
     "CONTINUE SHOPPING": "CONTINUE SHOPPING",
-
     "ADD TO BAG": "ADD TO BAG",
     "You might also like": "You might also like",
     "stars": "stars",
-
     "MY ORDERS": "MY ORDERS",
     "Order": "Order",
     "Total Amount": "Total Amount",
@@ -83,5 +73,10 @@
     "Review": "Review",
     "Processing": "Processing",
     "Approved": "Approved",
-    "Rejected": "Rejected"
+    "Rejected": "Rejected",
+    "Home": "Home",
+    "Search": "Search",
+    "Bag": "Bag",
+    "Save": "Save",
+    "Person": "Person"
 }
