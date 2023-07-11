@@ -66,24 +66,27 @@ class SavedStorageRepository {
       variables: <String, String>{'id': u.getId()});
       final response = await Amplify.API.query(request: request).response;
       final data = response.data;
+      print('dataabcxyz: $data');
       if (data != null) {
         Map<String, dynamic> jsonData = json.decode(data);
-        List<dynamic> productsData = jsonData[getSavedStorage]['SavedStorageProducts']['items'];
-        List<SavedStorageProduct> savedStorageProducts = List<SavedStorageProduct>.from(productsData.map((e) {
-          Product product = Product.fromJson(e['product']);
-          product =
-              product.copyWith(brand: Brand.fromJson(e['product']['brand']));
-          product = product.copyWith(
-              finercategory:
-                  FinerCategory.fromJson(e['product']['finercategory']));
+        if (jsonData[getSavedStorage] != null) {
+          List<dynamic> productsData = jsonData[getSavedStorage]['SavedStorageProducts']['items'];
+          List<SavedStorageProduct> savedStorageProducts = List<SavedStorageProduct>.from(productsData.map((e) {
+            Product product = Product.fromJson(e['product']);
+            product =
+                product.copyWith(brand: Brand.fromJson(e['product']['brand']));
+            product = product.copyWith(
+                finercategory:
+                    FinerCategory.fromJson(e['product']['finercategory']));
 
-          SavedStorageProduct savedStorageProduct = SavedStorageProduct.fromJson(e);
-          savedStorageProduct = savedStorageProduct.copyWith(product: product);
-          return savedStorageProduct;
-        }));
-        SavedStorage savedStorage = SavedStorage.fromJson(jsonData[getSavedStorage]);
-        savedStorage = savedStorage.copyWith(SavedStorageProducts: savedStorageProducts);
-        return savedStorage;
+            SavedStorageProduct savedStorageProduct = SavedStorageProduct.fromJson(e);
+            savedStorageProduct = savedStorageProduct.copyWith(product: product);
+            return savedStorageProduct;
+          }));
+          SavedStorage savedStorage = SavedStorage.fromJson(jsonData[getSavedStorage]);
+          savedStorage = savedStorage.copyWith(SavedStorageProducts: savedStorageProducts);
+          return savedStorage;
+        }
       }
       SavedStorage savedStorage = await createSavedStorage(u.getId());
       return savedStorage;
@@ -95,8 +98,10 @@ class SavedStorageRepository {
   Future<SavedStorage> createSavedStorage(String userID) async {
     try {
       SavedStorage savedStorage = SavedStorage(id: userID);
+      savedStorage = savedStorage.copyWith(SavedStorageProducts: List.empty(growable: true));
       final request = ModelMutations.create(savedStorage);
       final response = await Amplify.API.query(request: request).response;
+      print("savestorageabcxyz: ${response.data}");
       return savedStorage;
     } on ApiException catch (e) {
       rethrow;
