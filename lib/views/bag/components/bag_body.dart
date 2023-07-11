@@ -1,12 +1,10 @@
-import 'package:final_project/colors.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/models/ModelProvider.dart';
-import 'package:final_project/services/cloud/bloc/bag_bloc.dart';
+import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class BagBody extends StatefulWidget {
   const BagBody({super.key});
@@ -38,42 +36,46 @@ class _BagBodyState extends State<BagBody> {
       builder: (context, state) {
         if (state is BagLoadedState) {
           calculateTotalAmountAndItem(state.bag.BagProducts!);
-          return Column(
-            children: [
-              Container(
-                height: 40,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SmallText(
-                        text: '$totalItems ${tr('items: Total (excluding delivery) ')}'),
-                    SmallText(
-                      text: '${totalAmount.toStringAsFixed(2)}\$',
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ],
+          return Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SmallText(text: '$totalItems ${'items: Total (excluding delivery) '}'),
+                      SmallText(
+                        text: '${totalAmount.toStringAsFixed(2)}\$',
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Divider(
-                height: 1,
-                thickness: 0.8,
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: ListView.separated(
-                    itemBuilder: (context, index) => ListItem(
-                      index: index,
-                      bagProduct: state.bag.BagProducts![index],
-                    ),
-                    itemCount: state.bag.BagProducts!.length,
-                    separatorBuilder: (context, index) => const Divider(
-                      height: 1,
+                const Divider(
+                  height: 1,
+                  thickness: 0.8,
+                ),
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => ListItem(
+                        index: index,
+                        bagProduct: state.bag.BagProducts![index],
+                      ),
+                      itemCount: state.bag.BagProducts!.length,
+                      separatorBuilder: (context, index) => const Divider(
+                        height: 1,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         } else {
           return Container();
@@ -91,7 +93,7 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? value = bagProduct.quantity.toString();
-    String? _selectedSize = bagProduct.size;
+    String? selectedSize = bagProduct.size;
     return Container(
       height: 130,
       margin: const EdgeInsets.only(top: 12, bottom: 6),
@@ -102,10 +104,8 @@ class ListItem extends StatelessWidget {
             height: 120,
             width: 110, //148
             decoration: BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      bagProduct.product!.images!.split('|').first)),
+              image:
+                  DecorationImage(fit: BoxFit.fill, image: NetworkImage(bagProduct.product!.images!.split('|').first)),
             ),
           ),
           Expanded(
@@ -126,8 +126,7 @@ class ListItem extends StatelessWidget {
                                   '${bagProduct.product!.originalPrice}\$',
                                   style: const TextStyle(
                                       decoration: TextDecoration.lineThrough,
-                                      decorationStyle:
-                                          TextDecorationStyle.solid,
+                                      decorationStyle: TextDecorationStyle.solid,
                                       decorationColor: AppColors.grey,
                                       decorationThickness: 5,
                                       color: AppColors.grey,
@@ -138,8 +137,7 @@ class ListItem extends StatelessWidget {
                                   height: 2,
                                 ),
                                 BigText(
-                                  text:
-                                      '${bagProduct.product!.discountPrice}\$',
+                                  text: '${bagProduct.product!.discountPrice}\$',
                                   size: 14,
                                   color: AppColors.redPrimary,
                                 ),
@@ -151,10 +149,8 @@ class ListItem extends StatelessWidget {
                               color: AppColors.redPrimary,
                             ),
                       GestureDetector(
-                        onTap: () => context
-                            .read<BagBloc>()
-                            .add(BagRemoveItemEvent(index: index)),
-                        child: Icon(
+                        onTap: () => context.read<BagBloc>().add(BagRemoveItemEvent(index: index)),
+                        child: const Icon(
                           Icons.clear_rounded,
                           size: 22,
                         ),
@@ -195,10 +191,8 @@ class ListItem extends StatelessWidget {
                                 color: AppColors.black,
                                 size: 20,
                               ),
-                              value: _selectedSize,
-                              items: bagProduct.product!.sizeOption!
-                                  .split(',')
-                                  .map((String item) {
+                              value: selectedSize,
+                              items: bagProduct.product!.sizeOption!.split(',').map((String item) {
                                 return DropdownMenuItem(
                                   value: item,
                                   child: BigText(
@@ -208,11 +202,11 @@ class ListItem extends StatelessWidget {
                                 );
                               }).toList(),
                               onChanged: (String? item) {
-                                _selectedSize = item;
+                                selectedSize = item;
                                 context.read<BagBloc>().add(
                                       BagItemSizeChangeEvent(
                                         index: index,
-                                        size: _selectedSize!,
+                                        size: selectedSize!,
                                       ),
                                     );
                               },
@@ -236,9 +230,7 @@ class ListItem extends StatelessWidget {
                                 size: 20,
                               ),
                               value: value,
-                              items: List<String>.generate(
-                                      10, (index) => (index + 1).toString())
-                                  .map((String item) {
+                              items: List<String>.generate(10, (index) => (index + 1).toString()).map((String item) {
                                 return DropdownMenuItem(
                                   value: item,
                                   child: BigText(
