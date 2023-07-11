@@ -1,9 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:final_project/colors.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/services/auth/bloc/auth_bloc.dart';
+import 'package:final_project/services/auth/cubit/auth_cubit.dart';
+import 'package:final_project/services/cloud/bloc/shipping_address/shipping_address_bloc.dart';
 import 'package:final_project/size_config.dart';
 import 'package:final_project/views/profile/components/language/language_view.dart';
 import 'package:final_project/views/profile/components/my_orders/my_orders_view.dart';
+import 'package:final_project/views/shipping_address/shipping_address_view.dart';
 import 'package:final_project/widgets/app_listtile.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/small_text.dart';
@@ -16,24 +18,49 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    context.read<ShippingAddressBloc>().add(ShippingAddressInitializeEvent());
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         title: BigText(
           text: 'MY ACCOUNT',
           size: 14,
         ),
-        elevation: 0.5,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              height: getProportionateScreenHeight(85),
-              decoration: const ShapeDecoration(
-                  shape: CircleBorder(), color: AppColors.grey),
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 36),
+                  child: Image.asset(
+                    'assets/images/default_avt.jpeg',
+                    fit: BoxFit.fill,
+                    height: 90,
+                    width: double.infinity,
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  top: 20,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    decoration: const ShapeDecoration(
+                      shape: CircleBorder(
+                        side: BorderSide(
+                          color: Colors.white,
+                          width: 1.75,
+                        ),
+                      ),
+                      color: AppColors.black,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 10,
@@ -46,7 +73,7 @@ class ProfileView extends StatelessWidget {
               height: 5,
             ),
             BigText(
-              text: 'Trung Thành',
+              text: context.read<AuthCubit>().sessionCubit.currentUser.username,
               size: 16,
             ),
             const SizedBox(
@@ -63,34 +90,53 @@ class ProfileView extends StatelessWidget {
                             builder: (_) => const MyOrdersView(),
                           ),
                         ),
-                    child: AppListTile(
-                        icon: Icons.history, text: tr('My orders'))),
-                AppListTile(icon: Icons.badge_outlined, text: tr('My details')),
-                AppListTile(
-                    icon: Icons.lock_outline, text: tr('Change password')),
-                AppListTile(
-                    icon: Icons.home_outlined, text: tr('Address book')),
-                AppListTile(
-                    icon: Icons.payment_outlined, text: tr('Payment methods')),
-                AppListTile(
-                    icon: Icons.notifications_outlined,
-                    text: tr('Notifications')),
-                AppListTile(
-                    icon: Icons.card_giftcard_outlined, text: tr('Promocodes')),
+                    child: const AppListTile(icon: Icons.history, text: 'My orders')),
+                Container(
+                  color: AppColors.whiteBackGround,
+                  height: 8,
+                ),
+                const AppListTile(icon: Icons.badge_outlined, text: 'My details'),
+                const AppListTile(icon: Icons.lock_outline, text: 'Change password'),
+                BlocBuilder<ShippingAddressBloc, ShippingAddressState>(
+                  builder: (context, state) {
+                    if (state is ShippingAddressLoadedState) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => BlocProvider.value(
+                                      value: BlocProvider.of<ShippingAddressBloc>(context),
+                                      child: ShippingAddressView(
+                                        shippingAddresses: state.shippingAddresses,
+                                      ),
+                                    )));
+                          },
+                          child: const AppListTile(icon: Icons.home_outlined, text: 'Address book'));
+                    }
+                    return const AppListTile(icon: Icons.home_outlined, text: 'Address book');
+                  },
+                ),
+                const AppListTile(icon: Icons.payment_outlined, text: 'Payment methods'),
+                const AppListTile(icon: Icons.notifications_outlined, text: 'Notifications'),
+                const AppListTile(icon: Icons.card_giftcard_outlined, text: 'Promocodes'),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const LanguageView()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const LanguageView()));
                   },
-                  child: AppListTile(
-                      icon: Icons.language_outlined, text: tr('Language')),
+                  child: const AppListTile(icon: Icons.language_outlined, text: 'Language'),
+                ),
+                Container(
+                  color: AppColors.whiteBackGround,
+                  height: 8,
                 ),
                 GestureDetector(
                   onTap: () {
                     context.read<AuthBloc>().add(const AuthEventLogOut());
                   },
-                  child: AppListTile(
-                      icon: Icons.logout_outlined, text: tr('Sign out')),
+                  child: const AppListTile(icon: Icons.logout_outlined, text: 'Sign out'),
+                ),
+                Container(
+                  color: AppColors.whiteBackGround,
+                  height: 16,
                 ),
               ]).toList(),
             ),
