@@ -5,6 +5,7 @@ import 'package:final_project/services/repo/stripe_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class StripePaymentScreen extends StatefulWidget {
   const StripePaymentScreen({Key? key}) : super(key: key);
@@ -165,7 +166,7 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
 
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
-        headers: {'Authorization': 'Bearer $SECRET_KEY', 'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: {'Authorization': 'Bearer ${dotenv.env["STRIPE_SECRET_KEY"]}', 'Content-Type': 'application/x-www-form-urlencoded'},
         body: body,
       );
       // ignore: avoid_print
