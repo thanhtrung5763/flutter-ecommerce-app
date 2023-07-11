@@ -14,10 +14,7 @@ ThemeData theme() {
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     appBarTheme: const AppBarTheme(
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-      ),
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       iconTheme: IconThemeData(color: Colors.black),
       backgroundColor: Colors.white,
       elevation: 0.2,
