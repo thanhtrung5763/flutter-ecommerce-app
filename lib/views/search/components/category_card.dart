@@ -1,13 +1,10 @@
-import 'package:final_project/colors.dart';
 import 'package:final_project/models/BroadCategory.dart';
-import 'package:final_project/services/cloud/bloc/bag_bloc.dart';
-import 'package:final_project/services/cloud/bloc/saved_storage_bloc.dart';
+import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
+import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
 import 'package:final_project/size_config.dart';
 import 'package:final_project/views/sub_category/sub_category_view.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -29,9 +26,9 @@ class CategoryCard extends StatelessWidget {
       ),
       child: Container(
         height: 100,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         decoration: const BoxDecoration(
-          color: AppColors.white,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.08),
