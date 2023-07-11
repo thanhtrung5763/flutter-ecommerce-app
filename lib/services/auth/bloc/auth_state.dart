@@ -14,6 +14,7 @@ class AuthStateLogIn extends AuthState {
   final String? username;
   final String? password;
 
+  @override
   final FormSubmissionStatus formStatus;
 
   const AuthStateLogIn({
@@ -28,6 +29,7 @@ class AuthStateSignUp extends AuthState {
   final String? email;
   final String? password;
 
+  @override
   final FormSubmissionStatus formStatus;
 
   const AuthStateSignUp({
@@ -42,6 +44,7 @@ class AuthStateConfirmSignUp extends AuthState {
   final String? username;
   final String? confirmationCode;
 
+  @override
   final FormSubmissionStatus formStatus;
 
   const AuthStateConfirmSignUp({
