@@ -6,7 +6,7 @@ import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
 import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
 import 'package:final_project/services/cloud/cubit/product/product_cubit.dart';
 import 'package:final_project/size_config.dart';
-import 'package:final_project/utils/show_errow_dialog.dart';
+import 'package:final_project/widgets/show_errow_dialog.dart';
 import 'package:final_project/views/catalog/test_gender_view.dart';
 import 'package:final_project/views/home/components/product_card.dart';
 import 'package:final_project/views/product/product_view.dart';
