@@ -1,4 +1,3 @@
-import 'package:final_project/utils/colors.dart';
 import 'package:final_project/models/Bag.dart';
 import 'package:final_project/models/BagProduct.dart';
 import 'package:final_project/models/ShippingAddress.dart';
@@ -6,6 +5,7 @@ import 'package:final_project/models/User.dart';
 import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
 import 'package:final_project/services/cloud/bloc/shipping_address/shipping_address_bloc.dart';
 import 'package:final_project/services/repo/stripe_repository.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/utils/sizes.dart';
 import 'package:final_project/views/checkout/components/checkout_success_view.dart';
 import 'package:final_project/views/shipping_address/components/add_edit_shipping_address_view.dart';
@@ -165,6 +165,21 @@ class _CheckoutViewState extends State<CheckoutView> {
                                               color: Colors.white.withOpacity(0.9),
                                               child: SmallText(
                                                 text: 'x${widget.bag.BagProducts![index].quantity}',
+                                                size: 10,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: widget.bag.BagProducts![index].size != null,
+                                          child: Positioned(
+                                            right: 0,
+                                            bottom: 0,
+                                            child: Container(
+                                              color: Colors.white.withOpacity(0.9),
+                                              child: SmallText(
+                                                text: '${widget.bag.BagProducts![index].size}',
+                                                size: 10,
                                               ),
                                             ),
                                           ),

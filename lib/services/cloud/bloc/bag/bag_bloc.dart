@@ -31,7 +31,7 @@ class BagBloc extends Bloc<BagEvent, BagState> {
               bag = bag.copyWith(BagProducts: bagProducts);
               emit(BagLoadedState(bag: bag));
             } else {
-              final productIndex = bag.BagProducts!.indexWhere((element) => element.product!.id == event.product.id);
+              final productIndex = bag.BagProducts!.indexWhere((element) => (element.product!.id == event.product.id) && (element.size == event.size));
               if (productIndex >= 0) {
                 bag.BagProducts![productIndex] =
                     bag.BagProducts![productIndex].copyWith(quantity: bag.BagProducts![productIndex].quantity! + 1);
