@@ -1,6 +1,6 @@
-import 'package:final_project/utils/colors.dart';
 import 'package:final_project/models/ModelProvider.dart';
 import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
+import 'package:final_project/utils/colors.dart';
 import 'package:final_project/utils/sizes.dart';
 import 'package:final_project/views/profile/components/my_orders/components/rating_view.dart';
 import 'package:final_project/widgets/big_text.dart';
@@ -172,13 +172,13 @@ class ListItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 150 * 0.55,
+          height: 170 * 0.55,
           margin: const EdgeInsets.only(top: 12, bottom: 6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 120 * 0.55,
+                height: 150 * 0.55,
                 width: 110 * 0.55, //148
                 decoration: BoxDecoration(
                   image: DecorationImage(

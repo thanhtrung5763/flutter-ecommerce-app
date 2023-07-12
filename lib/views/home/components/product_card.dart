@@ -1,7 +1,7 @@
-import 'package:final_project/utils/colors.dart';
-import 'package:final_project/utils/helper.dart';
 import 'package:final_project/models/ModelProvider.dart';
 import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
+import 'package:final_project/utils/colors.dart';
+import 'package:final_project/utils/helper.dart';
 import 'package:final_project/widgets/big_text.dart';
 import 'package:final_project/widgets/small_text.dart';
 import 'package:flutter/material.dart';
@@ -154,7 +154,7 @@ class _ProductCardState extends State<ProductCard> {
                                   decorationColor: AppColors.grey,
                                   decorationThickness: 5,
                                   color: AppColors.grey,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w400),
                             ),
                             const SizedBox(

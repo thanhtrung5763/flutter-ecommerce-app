@@ -11,11 +11,7 @@ class ProductSlider2 extends StatelessWidget {
   final String title;
   final double size;
   final Color backgroundColor;
-  const ProductSlider2(
-      {super.key,
-      required this.title,
-      this.size = 16,
-      required this.backgroundColor});
+  const ProductSlider2({super.key, required this.title, this.size = 16, required this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class ProductSlider2 extends StatelessWidget {
             height: 340,
             width: double.infinity,
             child: Container(
-              margin: EdgeInsets.only(left: 12, top: 12, bottom: 6),
+              margin: const EdgeInsets.only(left: 12, top: 12, bottom: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -50,9 +46,8 @@ class ProductSlider2 extends StatelessWidget {
                       ),
                       itemCount: state.products.length,
                       itemBuilder: (context, index) => Padding(
-                        padding: index != state.products.length - 1
-                            ? const EdgeInsets.only(right: 12)
-                            : EdgeInsets.zero,
+                        padding:
+                            index != state.products.length - 1 ? const EdgeInsets.only(right: 12) : EdgeInsets.zero,
                         child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(
@@ -60,10 +55,8 @@ class ProductSlider2 extends StatelessWidget {
                                 builder: (_) => BlocProvider.value(
                                   value: BlocProvider.of<BagBloc>(context),
                                   child: BlocProvider.value(
-                                    value: BlocProvider.of<SavedStorageBloc>(
-                                        context),
-                                    child: ProductView(
-                                        product: state.products[index]),
+                                    value: BlocProvider.of<SavedStorageBloc>(context),
+                                    child: ProductView(product: state.products[index]),
                                   ),
                                 ),
                               ),
@@ -71,19 +64,13 @@ class ProductSlider2 extends StatelessWidget {
                           },
                           child: Container(
                             color: Colors.white,
-                            padding: const EdgeInsets.only(
-                                left: 12, right: 12, top: 12),
+                            padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
                             child: ProductCard(
-                              isSelected: (BlocProvider.of<SavedStorageBloc>(
-                                          context)
-                                      .state) is SavedStorageLoadedState
-                                  ? (BlocProvider.of<SavedStorageBloc>(context)
-                                              .state as SavedStorageLoadedState)
+                              isSelected: (BlocProvider.of<SavedStorageBloc>(context).state) is SavedStorageLoadedState
+                                  ? (BlocProvider.of<SavedStorageBloc>(context).state as SavedStorageLoadedState)
                                           .savedStorage
                                           .SavedStorageProducts!
-                                          .indexWhere((element) =>
-                                              element.product!.id ==
-                                              state.products[index].id) >=
+                                          .indexWhere((element) => element.product!.id == state.products[index].id) >=
                                       0
                                   : false,
                               imgHeight: 164,

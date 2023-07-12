@@ -1,8 +1,8 @@
-import 'package:final_project/utils/colors.dart';
-import 'package:final_project/utils/constants.dart';
 import 'package:final_project/models/Product.dart';
 import 'package:final_project/services/cloud/bloc/bag/bag_bloc.dart';
 import 'package:final_project/services/cloud/bloc/saved_storage/saved_storage_bloc.dart';
+import 'package:final_project/utils/colors.dart';
+import 'package:final_project/utils/constants.dart';
 import 'package:final_project/utils/sizes.dart';
 import 'package:final_project/views/catalog/catalog_view.dart';
 import 'package:final_project/widgets/big_text.dart';
@@ -30,27 +30,32 @@ class Body extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SmallText(text: '${state.savedStorage.SavedStorageProducts!.length} ${'items'}'),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        isDense: true,
-                        menuMaxHeight: 150,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: AppColors.black,
-                          size: 18,
-                        ),
-                        hint: SmallText(
-                          text: 'Recently added',
-                        ),
-                        items: Constants.lDropDown.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: SmallText(text: items),
-                          );
-                        }).toList(),
-                        onChanged: (String? items) {},
-                      ),
+                    // DropdownButtonHideUnderline(
+                    //   child: DropdownButton(
+                    //     isDense: true,
+                    //     menuMaxHeight: 150,
+                    //     icon: const Icon(
+                    //       Icons.keyboard_arrow_down_rounded,
+                    //       color: AppColors.black,
+                    //       size: 18,
+                    //     ),
+                    //     hint: SmallText(
+                    //       text: 'Recently added',
+                    //     ),
+                    //     items: Constants.lDropDown.map((String items) {
+                    //       return DropdownMenuItem(
+                    //         value: items,
+                    //         child: SmallText(text: items),
+                    //       );
+                    //     }).toList(),
+                    //     onChanged: (String? items) {},
+                    //   ),
+                    // ),
+                    const Spacer(),
+                    SmallText(
+                      text: 'Recently added',
                     ),
+                    const Icon(Icons.keyboard_arrow_down)
                   ],
                 ),
               ),
